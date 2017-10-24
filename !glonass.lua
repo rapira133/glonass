@@ -1,7 +1,17 @@
 script_name("GLONASS")
 
-script_version("0.11")
+script_version("0.12")
 script_author("j.b.")
+
+function backup()
+	sadkaoskdoa, asdsad = createPickup(11738, 8, 1485 - 3000, 5525 - 3000, 56 - 0.5) -- монголы
+	sadkaoskdo2a, asdsa2d = createPickup(11738, 8, 346 - 3000, 3639 - 3000, 15 - 1) -- сфмц
+	sadkaoskdo2a, asdsa2d = createPickup(11738, 8, 2682 - 3000, 4052 - 3000, 21 - 1) -- фк
+	sadkaoskdo2a, asdsa2d = createPickup(11738, 8, 4608 - 3000, 4821 - 3000, 11 - 1) -- лвх
+	sadkaoskdo2a, asdsa2d = createPickup(11738, 8, 4244 - 3000, 3332 - 3000, 20 - 1) -- сыны
+	sadkaoskdo2a, asdsa2d = createPickup(11738, 8, 4178 - 3000, 1677 - 3000, 15 - 1.4) -- центральная
+	sadkaoskdo2a, asdsa2d = createPickup(11738, 8, 5035 - 3000, 1595 - 3000, 18 - 1.4) -- гетто
+end
 
 function main()
 	while not isSampAvailable() do wait(10) end
@@ -21,7 +31,7 @@ function main()
 	font = renderCreateFont("Segoe UI", 9, 5);
 	local names = {
 		["James_Bond"] = "friend",
-		["Anton_Kisakov"] = "friend",
+		["Poman_Volk"] = "friend",
 		["Transcorpus_Molvayas"] = "friend",
 		["Gannibal_Licvidator"] = "friend",
 		["Kabina_Dragonsoft"] = "friend",
@@ -31,9 +41,11 @@ function main()
 		["Riley_Reid"] = "friend",
 		["Alan_Morgan"] = "friend",
 		["Chester_Phillips"] = "friend",
-		["Taisiya_Briass"] = "friend",
 		["Mike_Rein"] = "friend",
-	["Alex_Rein"] = "friend", }
+		["Alex_Rein"] = "friend",
+		["Christopher_Star"] = "friend",
+		["Alejandro_Sauce"] = "friend",
+	}
 	if sampGetCurrentServerAddress() == '185.169.134.11' and names[nick] == "friend" then
 		sampAddChatMessage(('ГЛОНАСС инициализирован. Автор: James_Bond/rubbishman/Coulson.'),
 		0xEFBFB)
@@ -42,6 +54,7 @@ function main()
 		sampAddChatMessage(('Лицензия принадлежит: '..nick),
 		0xEFBFB)
 		while true do
+			fsdfds, currentveh = sampGetVehicleIdByCarHandle(storeCarCharIsInNoSave(PLAYER_PED))
 			fura()
 			wait(0)
 			chatcapture()
@@ -126,8 +139,11 @@ function glean()
 	removePickup(pickup10a)
 	removePickup(pickup11a)
 	removePickup(pickup12a)
-	local script = thisScript()
-	script:reload()
+	folme:terminate()
+	ifolu5:terminate()
+	ifolu6:terminate()
+	ifolu7:terminate()
+	ifolu8:terminate()
 end
 function debug()
 	while true do
@@ -214,7 +230,13 @@ function chatcapture()
 			y8 = tempy
 			z8 = tempz
 		end
-		if string.find(lcs, ' Везу фуру! Квадрат:', 1, true) then
+		if string.find(lcs, ' Везу фуру. Квадрат:', 1, true) then
+			coord(lcs)
+			x9 = tempx
+			y9 = tempy
+			z9 = tempz
+		end
+		if string.find(lcs, 'Координаты фуры: ', 1, true) then
 			coord(lcs)
 			x9 = tempx
 			y9 = tempy
@@ -241,7 +263,7 @@ function followme(typ)
 	while true do
 		wait(1)
 		if getActiveInterior() == 0 then
-			wait(math.random(5000, 12000))
+			wait(math.random(3000, 7000))
 			local X, Y, Z = getCharCoordinates(playerPed)
 			X = math.ceil(X + 3000)
 			Y = math.ceil(Y + 3000)
@@ -249,7 +271,7 @@ function followme(typ)
 			if typ == 5 then sampSendChat('/f [ГЛOНACС]: Режим FOLLOW! Квадрат: '..BOL..'! N'..X..'E'..Y..'Z'..Z..'!') end
 			if typ == 6 then sampSendChat('/f [ГЛOНACС]: Режим OXOTHIK! Квадрат: '..BOL..'! N'..X..'E'..Y..'Z'..Z..'!') end
 			if typ == 7 then sampSendChat('/f [ГЛOНACС]: Режим JERTVA! Квадрат: '..BOL..'! N'..X..'E'..Y..'Z'..Z..'!') end
-			if typ == 8 and storeCarCharIsInNoSave(PLAYER_PED) == 5377 then sampSendChat('/f [ГЛOНACС]: Координаты фуры: '..BOL..'! N'..X..'E'..Y..'Z'..Z..'!') end
+			if typ == 8 and currentveh == 360 then sampSendChat('/f [ГЛOНACС]: Координаты фуры: '..BOL..'! N'..X..'E'..Y..'Z'..Z..'!') end
 		end
 	end
 end
@@ -306,7 +328,7 @@ function ifolu7()
 end
 
 function ifolu8()
-	if8 = 7
+	if8 = 8
 	x9b = 0
 	y9b = 0
 	while true do
@@ -324,7 +346,7 @@ end
 
 function callhelp()
 	if not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isKeyDown(80) then
-		sampShowDialog(983, "ГЛОНАСС by rubbishman - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке (статичная метка)\n[2] Передать свои координаты (статичная метка)\n[3] Матовоз потушен, требуется вскрыть (статичная метка)\n[4] Матовоз потушен, требуется фура (статичная метка)\n[5] Матовоз потушен, требуется загрузить (статичная метка)\n[6] Следуйте за мной (динамичная метка)\n[7] Вызов помощь в погоне, охотник (динамичная метка)\n[8] Вызов помощь в погоне, жертва (динамичная метка)\n[9] Везу фуру (не работает)\n[10] Вызвать помощь в ограблении больницы \n[11] Вызвать помощь в ограблении заправки (статичная метка)\n[12] Вызвать помощь в ограблении бара (статичная метка)"), "Выбрать", "Закрыть", 2)
+		sampShowDialog(983, "ГЛОНАСС by rubbishman - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке (статичная метка)\n[2] Передать свои координаты (статичная метка)\n[3] Матовоз потушен, требуется вскрыть (статичная метка)\n[4] Матовоз потушен, требуется фура (статичная метка)\n[5] Матовоз потушен, требуется загрузить (статичная метка)\n[6] Следуйте за мной (динамичная метка)\n[7] Вызов помощь в погоне, охотник (динамичная метка)\n[8] Вызов помощь в погоне, жертва (динамичная метка)\n[9] Везу фуру (динамичная метка, только в фуре)\n[10] Вызвать помощь в ограблении больницы \n[11] Вызвать помощь в ограблении заправки (статичная метка)\n[12] Вызвать помощь в ограблении бара (статичная метка)"), "Выбрать", "Закрыть", 2)
 		while sampIsDialogActive() do
 			wait(0)
 			if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
@@ -354,7 +376,7 @@ end
 
 function iwillhelp()
 	if not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isKeyDown(90) then
-		sampShowDialog(984, "ГЛОНАСС by rubbishman - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Вызов помощи в перестрелке (статичная метка)\n[2] Передать свои координаты (статичная метка)\n[3] Матовоз потушен, требуется вскрыть (статичная метка)\n[4] Матовоз потушен, требуется фура (статичная метка)\n[5] Матовоз потушен, требуется загрузить (статичная метка)\n[6] Следуйте за мной (динамичная метка)\n[7] Вызов помощь в погоне, охотник (динамичная метка)\n[8] Вызов помощь в погоне, жертва (динамичная метка)\n[9] Везу фуру (не работает)\n[10] Вызвать помощь в ограблении больницы\n[11] Вызвать помощь в ограблении заправки (статичная метка)\n[12] Вызвать помощь в ограблении бара (статичная метка)"), "Выбрать", "Закрыть", 2)
+		sampShowDialog(984, "ГЛОНАСС by rubbishman - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Вызов помощи в перестрелке (статичная метка)\n[2] Передать свои координаты (статичная метка)\n[3] Матовоз потушен, требуется вскрыть (статичная метка)\n[4] Матовоз потушен, требуется фура (статичная метка)\n[5] Матовоз потушен, требуется загрузить (статичная метка)\n[6] Следуйте за мной (динамичная метка)\n[7] Вызов помощь в погоне, охотник (динамичная метка)\n[8] Вызов помощь в погоне, жертва (динамичная метка)\n[9] Везу фуру (динамичная метка, только в фуре)\n[10] Вызвать помощь в ограблении больницы\n[11] Вызвать помощь в ограблении заправки (статичная метка)\n[12] Вызвать помощь в ограблении бара (статичная метка)"), "Выбрать", "Закрыть", 2)
 		while sampIsDialogActive() do
 			wait(0)
 			if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
@@ -424,7 +446,7 @@ function bhelp(calltype)
 		end
 		calltype = -1
 	end
-	if calltype == 8 and storeCarCharIsInNoSave(PLAYER_PED) == 1 then
+	if calltype == 8 and currentveh == 360 then
 		if folme:status() == 'dead' then
 			sampSendChat('/f [ГЛOНACС]: Везу фуру. Квадрат: '..KVX..'! Координаты: N'..X..'E'..Y..'Z'..Z..'!')
 			folme:run(calltype)
