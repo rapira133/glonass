@@ -1,6 +1,6 @@
 script_name("GLONASS")
 script_version_number(1)
-script_version("1.2")
+script_version("1.3")
 script_author("rubbishman")
 local LIP = {};
 local dlstatus = require('moonloader').download_status
@@ -30,7 +30,7 @@ function main()
 		["Pavel_Bratuha"] = "friend",
 		["Phil_Coulson"] = "friend",
 	}
-	if sampGetCurrentServerAddress() == '185.169.134.11' or sampGetCurrentServerAddress() == '185.169.134.19' and names[nick] == "friend" then
+	if  names[nick] == "friend" and sampGetCurrentServerAddress() == '185.169.134.11' or sampGetCurrentServerAddress() == '185.169.134.19' then
 		if data.options.startmessage == 1 then
 			sampAddChatMessage(('ГЛОНАСС v'..thisScript().version..' запущен. Автор: James_Bond/rubbishman/Coulson.'),
 			0x348cb2)
@@ -905,7 +905,10 @@ end
 
 function carmon()
 	wait(0)
+	while true do
+	wait(0)
 	fsdfds, currentveh = sampGetVehicleIdByCarHandle(storeCarCharIsInNoSave(PLAYER_PED))
+	end
 end
 
 function checkversion()
