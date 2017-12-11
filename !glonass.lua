@@ -3,7 +3,7 @@
 -------------------------------------META---------------------------------------
 --------------------------------------------------------------------------------
 script_name("GLONASS")
-script_version("2.0")
+script_version("2.1")
 script_author("James_Bond/rubbishman/Coulson")
 script_description("/glonass")
 -------------------------------------var----------------------------------------
@@ -75,8 +75,8 @@ end
 --------------------------------------------------------------------------------
 -- МЕНЮ ОТПРАВКИ ВЫЗОВА
 function callhelp()
-	if not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isSampfuncsConsoleActive() == false and isKeyDown(80) and sampIsDialogActive() == false then
-		sampShowDialog(983, "ГЛОНАСС by rubbishman - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке\n[2] Передать свои координаты\n[3] Матовоз потушен, требуется вскрыть\n[4] Матовоз потушен, требуется фура\n[5] Матовоз потушен, требуется загрузить\n[6] Следуйте за мной (динамичная)\n[7] Вызов помощь в погоне, охотник (динамичная)\n[8] Вызов помощь в погоне, жертва (динамичная)\n[9] Везу фуру (динамичная, только в фуре)\n[10] Вызвать помощь в ограблении больницы \n[11] Вызвать помощь в ограблении заправки \n[12] Вызвать помощь в ограблении бара "), "Выбрать", "Закрыть", 2)
+	if not isPauseMenuActive() and (isPlayerPlaying(playerHandle) or isPlayerDead(playerHandle) == true) and sampIsChatInputActive() == false and isSampfuncsConsoleActive() == false and isKeyDown(80) and sampIsDialogActive() == false then
+		sampShowDialog(983, "ГЛОНАСС by rubbishman - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке\n[2] Передать свои координаты\n[3] Матовоз потушен, требуется вскрыть\n[4] Матовоз потушен, требуется фура\n[5] Матовоз потушен, требуется загрузить\n[6] Следуйте за мной (динамическая)\n[7] Вызов помощь в погоне, охотник (динамическая)\n[8] Вызов помощь в погоне, жертва (динамическая)\n[9] Везу фуру (динамическая)\n[10] Вызвать помощь в ограблении больницы \n[11] Вызвать помощь в ограблении заправки \n[12] Вызвать помощь в ограблении бара "), "Выбрать", "Закрыть", 2)
 		while sampIsDialogActive() do
 			wait(0)
 			if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
@@ -197,7 +197,7 @@ end
 -- МЕНЮ ПРИНЯТИЯ ВЫЗОВА
 function iwillhelp()
 	if not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isKeyDown(221) and sampIsDialogActive() == false and isSampfuncsConsoleActive() == false then
-		sampShowDialog(984, "ГЛОНАСС by rubbishman - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Принять вызов 10-34\n[2] Принять координаты\n[3] Принять матовоз, который нужно вскрыть\n[4] Принять матовоз, нужна фура\n[5] Принять матовоз, нужны грузчики\n[6] Принять \"Следуйте за мной\" (динамическая)\n[7] Принять вызов помощи в погоне, охотник (динамическая)\n[8] Принять вызов помощи в погоне, жертва (динамичная)\n[9] Отслеживать координаты фуры (динамичная)\n[10] Принять вызов ограбления больницы\n[11] Принять вызов ограбления заправки\n[12] Принять вызов ограбления бара\n[13] Принять вызов по квадрату"), "Выбрать", "Закрыть", 2)
+		sampShowDialog(984, "ГЛОНАСС by rubbishman - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Принять вызов 10-34\n[2] Принять координаты\n[3] Принять матовоз, который нужно вскрыть\n[4] Принять матовоз, нужна фура\n[5] Принять матовоз, нужны грузчики\n[6] Принять \"Следуйте за мной\" (динамическая)\n[7] Принять вызов помощи в погоне, охотник (динамическая)\n[8] Принять вызов помощи в погоне, жертва (динамическая)\n[9] Отслеживать координаты фуры (динамическая)\n[10] Принять вызов ограбления больницы\n[11] Принять вызов ограбления заправки\n[12] Принять вызов ограбления бара\n[13] Принять вызов по квадрату"), "Выбрать", "Закрыть", 2)
 		while sampIsDialogActive() do
 			wait(0)
 			if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
@@ -465,98 +465,124 @@ function chatcapture()
 			-- 10-34
 			if string.find(lcs, '10-34', 1, true) then
 				coord(lcs)
-				x1 = tempx
-				y1 = tempy
-				z1 = tempz
-				lastcall = 1
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x1 = tempx
+					y1 = tempy
+					z1 = tempz
+					lastcall = 1
+				end
 			end
 			-- просто передать координаты
 			if string.find(lcs, 'Передаю свои координаты! Квадрат:', 1, true) then
 				coord(lcs)
-				x2 = tempx
-				y2 = tempy
-				z2 = tempz
-				lastcall = 2
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x2 = tempx
+					y2 = tempy
+					z2 = tempz
+					lastcall = 2
+				end
 			end
 			-- вскрыть фуру
 			if string.find(lcs, ' Потушили матовоз, нужно вскрыть.', 1, true) then
 				coord(lcs)
-				x3 = tempx
-				y3 = tempy
-				z3 = tempz
-				lastcall = 3
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x3 = tempx
+					y3 = tempy
+					z3 = tempz
+					lastcall = 3
+				end
 			end
 			-- нужна фура
 			if string.find(lcs, ' Потушили матовоз, нужна фура.', 1, true) then
 				coord(lcs)
-				x4 = tempx
-				y4 = tempy
-				z4 = tempz
-				lastcall = 4
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x4 = tempx
+					y4 = tempy
+					z4 = tempz
+					lastcall = 4
+				end
 			end
 			-- грузим фуру
 			if string.find(lcs, ' Потушили матовоз, нужны грузчики.', 1, true) then
 				coord(lcs)
-				x5 = tempx
-				y5 = tempy
-				z5 = tempz
-				lastcall = 5
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x5 = tempx
+					y5 = tempy
+					z5 = tempz
+					lastcall = 5
+				end
 			end
 			if string.find(lcs, ' Следуйте за мной!', 1, true) then
 				coord(lcs)
-				x6 = tempx
-				y6 = tempy
-				z6 = tempz
-				lastcall = 6
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x6 = tempx
+					y6 = tempy
+					z6 = tempz
+					lastcall = 6
+				end
 			end
 			if string.find(lcs, ' FOLLOW!', 1, true) then
 				coord(lcs)
-				x6 = tempx
-				y6 = tempy
-				z6 = tempz
-				lastcall = 6
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x6 = tempx
+					y6 = tempy
+					z6 = tempz
+					lastcall = 6
+				end
 			end
 			if string.find(lcs, ' Погоня! Я охотник.', 1, true) then
 				coord(lcs)
-				x7 = tempx
-				y7 = tempy
-				z7 = tempz
-				lastcall = 7
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x7 = tempx
+					y7 = tempy
+					z7 = tempz
+					lastcall = 7
+				end
 			end
 			if string.find(lcs, ' Режим OXOTHIK!', 1, true) then
 				coord(lcs)
-				x7 = tempx
-				y7 = tempy
-				z7 = tempz
-				lastcall = 7
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x7 = tempx
+					y7 = tempy
+					z7 = tempz
+					lastcall = 7
+				end
 			end
 			if string.find(lcs, ' Погоня! Я жертва. ', 1, true) then
 				coord(lcs)
-				x8 = tempx
-				y8 = tempy
-				z8 = tempz
-				lastcall = 8
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x8 = tempx
+					y8 = tempy
+					z8 = tempz
+					lastcall = 8
+				end
 			end
 			if string.find(lcs, ' Режим JERTVA!', 1, true) then
 				coord(lcs)
-				x8 = tempx
-				y8 = tempy
-				z8 = tempz
-				lastcall = 8
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x8 = tempx
+					y8 = tempy
+					z8 = tempz
+					lastcall = 8
+				end
 			end
 			if string.find(lcs, ' Везу фуру. Квадрат:', 1, true) then
 				coord(lcs)
-				x9 = tempx
-				y9 = tempy
-				z9 = tempz
-				lastcall = 9
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x9 = tempx
+					y9 = tempy
+					z9 = tempz
+					lastcall = 9
+				end
 			end
 			if string.find(lcs, 'Координаты фуры: ', 1, true) then
 				coord(lcs)
-				x9 = tempx
-				y9 = tempy
-				z9 = tempz
-				lastcall = 9
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x9 = tempx
+					y9 = tempy
+					z9 = tempz
+					lastcall = 9
+				end
 			end
 			if string.find(lcs, 'больницу', 1, true) then
 				lastcall = 10
@@ -586,18 +612,22 @@ function chatcapture()
 			-- грабим заправку
 			if string.find(lcs, ' заправку', 1, true) then
 				coord(lcs)
-				x11 = tempx
-				y11 = tempy
-				z11 = tempz
-				lastcall = 11
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x11 = tempx
+					y11 = tempy
+					z11 = tempz
+					lastcall = 11
+				end
 			end
 			-- грабим алко
 			if string.find(lcs, ' алкоголь', 1, true) then
 				coord(lcs)
-				x12 = tempx
-				y12 = tempy
-				z12 = tempz
-				lastcall = 12
+				if tempx ~= nil and tempy ~= nil and tempz ~= nil then
+					x12 = tempx
+					y12 = tempy
+					z12 = tempz
+					lastcall = 12
+				end
 			end
 		else
 			if string.find(lcs, "(%A)-[0-9][0-9]") or string.find(lcs, "(%A)-[0-9]") then
@@ -615,10 +645,14 @@ end
 function coord(text)
 	if string.find(text, "(%d+)E(%d+)Z(%d+)") then
 		tempx, tempy, tempz = string.match(text, "(%d+)E(%d+)Z(%d+)")
-		if tempx < 5000 and tempy < 5000 and tempz < 200 then
+		if tonumber(tempx) < 10000 and tonumber(tempy) < 10000 and tonumber(tempz) < 200 then
 			tempx = tempx - 3000
 			tempy = tempy - 3000
 			tempz = tempz - 1
+		else
+			tempx = nil
+			tempy = nil
+			tempz = nil
 		end
 	end
 end
@@ -861,6 +895,34 @@ mod_submenus_sa = {
 		end
 	},
 	{
+		title = 'Сказать спасибо',
+		onclick = function()
+			local ffi = require 'ffi'
+			ffi.cdef [[
+								void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
+								uint32_t __stdcall CoInitializeEx(void*, uint32_t);
+							]]
+			local shell32 = ffi.load 'Shell32'
+			local ole32 = ffi.load 'Ole32'
+			ole32.CoInitializeEx(nil, 2 + 4)
+			print(shell32.ShellExecuteA(nil, 'open', 'http://rubbishman.ru/donate', nil, nil, 1))
+		end
+	},
+	{
+		title = 'Связаться с автором (все баги сюда)',
+		onclick = function()
+			local ffi = require 'ffi'
+			ffi.cdef [[
+								void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
+								uint32_t __stdcall CoInitializeEx(void*, uint32_t);
+							]]
+			local shell32 = ffi.load 'Shell32'
+			local ole32 = ffi.load 'Ole32'
+			ole32.CoInitializeEx(nil, 2 + 4)
+			print(shell32.ShellExecuteA(nil, 'open', 'http://rubbishman.ru/sampcontact', nil, nil, 1))
+		end
+	},
+	{
 		title = ' '
 	},
 	{
@@ -879,9 +941,9 @@ mod_submenus_sa = {
 				title = 'Включить/выключить автообновление',
 				onclick = function()
 					if data.options.autoupdate == 1 then
-						data.options.autoupdate = 0 sampAddChatMessage(('[PISSER]: Автообновление писсера выключено'), color)
+						data.options.autoupdate = 0 sampAddChatMessage(('[GLONASS]: Автообновление глонасс выключено'), color)
 					else
-						data.options.autoupdate = 1 sampAddChatMessage(('[PISSER]: Автообновление писсера включено'), color)
+						data.options.autoupdate = 1 sampAddChatMessage(('[GLONASS]: Автообновление глонасс включено'), color)
 					end
 					inicfg.save(data, "glonass")
 				end
@@ -900,6 +962,20 @@ mod_submenus_sa = {
 	},
 	{
 		title = '{AAAAAA}Обновления'
+	},
+	{
+		title = 'Открыть страницу скрипта',
+		onclick = function()
+			local ffi = require 'ffi'
+			ffi.cdef [[
+							void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
+							uint32_t __stdcall CoInitializeEx(void*, uint32_t);
+						]]
+			local shell32 = ffi.load 'Shell32'
+			local ole32 = ffi.load 'Ole32'
+			ole32.CoInitializeEx(nil, 2 + 4)
+			print(shell32.ShellExecuteA(nil, 'open', 'http://rubbishman.ru/samp/glonass', nil, nil, 1))
+		end
 	},
 	{
 		title = 'История обновлений',
@@ -925,7 +1001,7 @@ function cmdGlonassInfo()
 	sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". Автор: James_Bond/rubbishman/Coulson.", "{ffcc00}Зачем этот скрипт?\n{ffffff}А зачем человечество веками осваивало навигацию?\nДля чего была создана карта с квадратами? Знакомьтесь, это карта с квадратами 2.0! \nЗабудьте про \"я там\" и \"я тут\", с этим скриптом не нужно тратить время, чтобы объяснить, где вы.\n{ffcc00}Как скрипт работает?\n{ffffff}Есть два режима работы GLONASS{ffffff}: {348cb2}обычный{ffffff} и {348cb2}динамичный{ffffff}.\n{348cb2} Обычный режим:{ffffff}\nПри обычном режиме в /f будут переданы ваши текущие координаты. \nУ принявшего появится метка на тех координатах, которые вы передали.\nМетка будет не только на радаре, но и в виде пикапа, который можно взять машиной или пешком.\n{348cb2}  Динамичный режим:\n{ffffff}При динамичном всё то же самое, но запустится процесс, который будет обновлять ваши \nкоординаты каждые 3-7 секунд. Динамичный режим создавался для погонь и перехватов.\nЧтобы остановить флуд в чат, выберите тот же пункт в меню вызова помощи или введите {00ccff}/glean{ffffff}.\n{ffcc00}Как мне ВЫЗВАТЬ?\n{ffffff}Нажмите {00ccff}P{ffffff}, чтобы открыть меню вызова. \nПеред вами список из возможных сценариев для байкеров: передача координат, перестрелка, \nматовоз, ограбление, режим погони и так далее.\nМожно выбрать нужный как мышкой и стрелками, так и клавишами 1-9 (так намного быстрее).\n{ffcc00}Как мне ПРИНЯТЬ?\n{ffffff}Нажмите {00ccff}Z{ffffff}, чтобы быстро принять последний вызов. \n{ffffff}Нажмите {00ccff}]{ffffff}, чтобы открыть меню, аналогичное меню вызова.\nЧтобы удалить метки/перестать отслеживать координаты, выберите тот же пункт в меню \nпринятия или введите {00ccff}/glean{ffffff}.\nGLONASS отслеживает так же написание квадрата в чате и умеет ставить метку на квадрат.\n{ffcc00}Доступные команды:\n    {00ccff}/glonass {ffffff}- меню скрипта\n    {00ccff}/glean {ffffff}- удалить метки, пикапы и остановить процессы слежения\n    {00ccff}/glonasslog {ffffff}- changelog скрипта\n{00ccff}    /glonassnot{ffffff} - включить/выключить сообщение при входе в игру", "Лады")
 end
 function changelog()
-	sampShowDialog(2342, "{348cb2}GLONASS: История версий.", "{ffcc00}v2.0 [10.12.17]\n{ffffff}Скрипт перешёл на SAMP.Lua.\nУбрана проверка лицензии, скрипт слит в паблик.\n{ffcc00}v1.3 [01.11.17]\n{ffffff}Добавлено меню {00ccff}/glonass{ffffff} для удобства.\n{ffffff}Исправлена проверка лицензии.\nИсправлен режим \"Фура\".\n{ffcc00}v1.2 [28.10.17]\n{ffffff}Лицензия на первый сервер.\n{ffcc00}v1.1 [25.10.17]\n{ffffff}Первый релиз скрипта.\n{ffffff}В скрипте почти тысяча строк, бессмысленно описывать каждую функцию.\nРеализовал всё, что пришло в голову.\nНа данный момент скрипт приватный, нубопроверка лицензии работает.", "Закрыть")
+	sampShowDialog(2342, "{348cb2}GLONASS: История версий.", "{ffcc00}v2.0 [10.12.17]\n{ffffff}Теперь скрипт использует SAMP.Lua.\nУбрана проверка лицензии, скрипт слит в паблик.\nТеперь скрипт использует inicfg.\n{ffcc00}v1.3 [01.11.17]\n{ffffff}Добавлено меню {00ccff}/glonass{ffffff} для удобства.\n{ffffff}Исправлена проверка лицензии.\nИсправлен режим \"Фура\".\n{ffcc00}v1.2 [28.10.17]\n{ffffff}Лицензия на первый сервер.\n{ffcc00}v1.1 [25.10.17]\n{ffffff}Первый релиз скрипта.\n{ffffff}В скрипте почти тысяча строк, бессмысленно описывать каждую функцию.\nРеализовал всё, что пришло в голову.\nНа данный момент скрипт приватный, нубопроверка лицензии работает.", "Закрыть")
 end
 --made by fyp
 function submenus_show(menu, caption, select_button, close_button, back_button)
