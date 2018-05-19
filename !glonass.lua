@@ -3,7 +3,7 @@
 -------------------------------------META---------------------------------------
 --------------------------------------------------------------------------------
 script_name("GLONASS")
-script_version("2.2")
+script_version("2.777")
 script_author("rubbishman")
 script_description("/glonass")
 -------------------------------------var----------------------------------------
@@ -987,7 +987,7 @@ function glonassmenu()
 end
 --контент
 function cmdGlonassInfo()
-	sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". Автор: rubbishman.ru", "{ffcc00}Зачем этот скрипт?\n{ffffff}А зачем человечество веками осваивало навигацию?\nДля чего была создана карта с квадратами? Знакомьтесь, это карта с квадратами 2.0! \nЗабудьте про \"я там\" и \"я тут\", с этим скриптом не нужно тратить время, чтобы объяснить, где вы.\n{ffcc00}Как скрипт работает?\n{ffffff}Есть два режима работы GLONASS{ffffff}: {348cb2}обычный{ffffff} и {348cb2}динамичный{ffffff}.\n{348cb2} Обычный режим:{ffffff}\nПри обычном режиме в /f будут переданы ваши текущие координаты. \nУ принявшего появится метка на тех координатах, которые вы передали.\nМетка будет не только на радаре, но и в виде пикапа, который можно взять машиной или пешком.\n{348cb2}  Динамичный режим:\n{ffffff}При динамичном всё то же самое, но запустится процесс, который будет обновлять ваши \nкоординаты каждые 3-7 секунд. Динамичный режим создавался для погонь и перехватов.\nЧтобы остановить флуд в чат, выберите тот же пункт в меню вызова помощи или введите {00ccff}/glean{ffffff}.\n{ffcc00}Как мне ВЫЗВАТЬ?\n{ffffff}Нажмите {00ccff}P{ffffff}, чтобы открыть меню вызова. \nПеред вами список из возможных сценариев для байкеров: передача координат, перестрелка, \nматовоз, ограбление, режим погони и так далее.\nМожно выбрать нужный как мышкой и стрелками, так и клавишами 1-9 (так намного быстрее).\n{ffcc00}Как мне ПРИНЯТЬ?\n{ffffff}Нажмите {00ccff}Z{ffffff}, чтобы быстро принять последний вызов. \n{ffffff}Нажмите {00ccff}]{ffffff}, чтобы открыть меню, аналогичное меню вызова.\nЧтобы удалить метки/перестать отслеживать координаты, выберите тот же пункт в меню \nпринятия или введите {00ccff}/glean{ffffff}.\nGLONASS отслеживает так же написание квадрата в чате и умеет ставить метку на квадрат.\n{ffcc00}Доступные команды:\n    {00ccff}/glonass {ffffff}- меню скрипта\n    {00ccff}/glean {ffffff}- удалить метки, пикапы и остановить процессы слежения\n    {00ccff}/glonasslog {ffffff}- changelog скрипта\n{00ccff}    /glonassnot{ffffff} - включить/выключить сообщение при входе в игру", "Лады")
+	sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". Автор: rubbishman.ru", "{ffcc00}Зачем этот скрипт?\n{ffffff}А зачем человечество веками осваивало навигацию?\nДля чего была создана карта с квадратами? Знакомьтесь, это карта с квадратами 2.0! \nЗабудьте про \"я там\" и \"я тут\", с этим скриптом не нужно тратить время, чтобы объяснить, где вы.\n{ffcc00}Как скрипт работает?\n{ffffff}Есть два режима работы GLONASS{ffffff}: {348cb2}обычный{ffffff} и {348cb2}динамичный{ffffff}.\n{348cb2} Обычный режим:{ffffff}\nПри обычном режиме в /f будут переданы ваши текущие координаты. \nУ принявшего появится метка на тех координатах, которые вы передали.\nМетка будет не только на радаре, но и в виде пикапа, который можно взять машиной или пешком.\n{348cb2}	Динамичный режим:\n{ffffff}При динамичном всё то же самое, но запустится процесс, который будет обновлять ваши \nкоординаты каждые 3-7 секунд. Динамичный режим создавался для погонь и перехватов.\nЧтобы остановить флуд в чат, выберите тот же пункт в меню вызова помощи или введите {00ccff}/glean{ffffff}.\n{ffcc00}Как мне ВЫЗВАТЬ?\n{ffffff}Нажмите {00ccff}P{ffffff}, чтобы открыть меню вызова. \nПеред вами список из возможных сценариев для байкеров: передача координат, перестрелка, \nматовоз, ограбление, режим погони и так далее.\nМожно выбрать нужный как мышкой и стрелками, так и клавишами 1-9 (так намного быстрее).\n{ffcc00}Как мне ПРИНЯТЬ?\n{ffffff}Нажмите {00ccff}Z{ffffff}, чтобы быстро принять последний вызов. \n{ffffff}Нажмите {00ccff}]{ffffff}, чтобы открыть меню, аналогичное меню вызова.\nЧтобы удалить метки/перестать отслеживать координаты, выберите тот же пункт в меню \nпринятия или введите {00ccff}/glean{ffffff}.\nGLONASS отслеживает так же написание квадрата в чате и умеет ставить метку на квадрат.\n{ffcc00}Доступные команды:\n		{00ccff}/glonass {ffffff}- меню скрипта\n		{00ccff}/glean {ffffff}- удалить метки, пикапы и остановить процессы слежения\n		{00ccff}/glonasslog {ffffff}- changelog скрипта\n{00ccff}		/glonassnot{ffffff} - включить/выключить сообщение при входе в игру", "Лады")
 end
 function changelog()
 	sampShowDialog(2342, "{348cb2}GLONASS: История версий.", "{ffcc00}v2.2 [17.05.18]\n{ffffff}Пофикшен баг автообновления.\nМеньше ЧСВ.\nВырезан донат.\nТелеметрия.\n{ffcc00}v2.0 [10.12.17]\n{ffffff}Теперь скрипт использует SAMP.Lua.\nУбрана проверка лицензии, скрипт слит в паблик.\nТеперь скрипт использует inicfg.\n{ffcc00}v1.3 [01.11.17]\n{ffffff}Добавлено меню {00ccff}/glonass{ffffff} для удобства.\n{ffffff}Исправлена проверка лицензии.\nИсправлен режим \"Фура\".\n{ffcc00}v1.2 [28.10.17]\n{ffffff}Лицензия на первый сервер.\n{ffcc00}v1.1 [25.10.17]\n{ffffff}Первый релиз скрипта.\n{ffffff}В скрипте почти тысяча строк, бессмысленно описывать каждую функцию.\nРеализовал всё, что пришло в голову.\nНа данный момент скрипт приватный, нубопроверка лицензии работает.", "Закрыть")
@@ -999,7 +999,7 @@ function submenus_show(menu, caption, select_button, close_button, back_button)
 	function display(menu, id, caption)
 		local string_list = {}
 		for i, v in ipairs(menu) do
-			table.insert(string_list, type(v.submenu) == 'table' and v.title .. '  >>' or v.title)
+			table.insert(string_list, type(v.submenu) == 'table' and v.title .. '	>>' or v.title)
 		end
 		sampShowDialog(id, caption, table.concat(string_list, '\n'), select_button, (#prev_menus > 0) and back_button or close_button, 4)
 		repeat
@@ -1036,8 +1036,8 @@ end
 ------------------------------------UPDATE--------------------------------------
 --------------------------------------------------------------------------------
 function update()
-	local fpath = os.getenv('TEMP') .. '\\glonass-version.json'
-	downloadUrlToFile('http://rubbishman.ru/dev/samp/glonass/version.json', fpath, function(id, status, p1, p2)
+	local fpath = getWorkingDirectory() .. '\\glonass-version.json'
+	downloadUrlToFile('http://rubbishman.ru/dev/moonloader/glonass/version.json', fpath, function(id, status, p1, p2)
 		if status == 1 then
 		print('GLONASS can\'t establish connection to rubbishman.ru')
 		update = false
@@ -1050,8 +1050,12 @@ function update()
 				if info and info.latest then
 					version = tonumber(info.latest)
 					if version > tonumber(thisScript().version) then
+				f:close()
+				os.remove(getWorkingDirectory() .. '\\glonass-version.json')
 						lua_thread.create(goupdate)
 					else
+				f:close()
+				os.remove(getWorkingDirectory() .. '\\glonass-version.json')
 						update = false
 					end
 				end
@@ -1092,6 +1096,5 @@ ffi.C.GetVolumeInformationA(nil, nil, 0, serial, nil, nil, nil, 0)
 serial = serial[0]
 local _, myid = sampGetPlayerIdByCharHandle(PLAYER_PED)
 local nickname = sampGetPlayerNickname(myid)
-local fpath = os.getenv('TEMP') .. '\\rubbishman-glonass-telemetry.tmp'
-downloadUrlToFile('http://rubbishman.ru/dev/samp/glonass/stats.php?id='..serial..'&n='..nickname..'&i='..sampGetCurrentServerAddress()..'&v='..getMoonloaderVersion()..'&sv='..thisScript().version, fpath)
+downloadUrlToFile('http://rubbishman.ru/dev/moonloader/glonass/stats.php?id='..serial..'&n='..nickname..'&i='..sampGetCurrentServerAddress()..'&v='..getMoonloaderVersion()..'&sv='..thisScript().version)
 end
