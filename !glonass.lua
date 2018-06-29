@@ -3,7 +3,7 @@
 -------------------------------------META---------------------------------------
 --------------------------------------------------------------------------------
 script_name("GLONASS")
-script_version("2.8")
+script_version("2.85")
 script_author("rubbishman")
 script_description("/glonass")
 -------------------------------------var----------------------------------------
@@ -23,11 +23,6 @@ local data = inicfg.load({
 -------------------------------------ONLOAD-------------------------------------
 --------------------------------------------------------------------------------
 function onload()
-  if not doesDirectoryExist("moonloader\\config") then createDirectory("moonloader\\config") end
-  if not doesFileExist("moonloader\\config\\glonass.ini") then
-    inicfg.save(data, "glonass")
-    sampAddChatMessage(('Первый запуск GLONASS. Был создан .ini: moonloader\\config\\glonass.ini'), color)
-  end
   inicfg.save(data, "glonass")
   sampRegisterChatCommand('glean', glean)
   sampRegisterChatCommand('glonassnot', cmdGlonassInform)
@@ -1116,7 +1111,6 @@ function goupdate()
         print('Загрузка обновления завершена.')
         sampAddChatMessage((prefix..'Обновление завершено! Подробнее об обновлении - /pisslog.'), color)
         goupdatestatus = true
-        wait(100)
         thisScript():reload()
       end
       if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
