@@ -1109,7 +1109,7 @@ function goupdate()
         print(string.format('Загружено %d из %d.', p13, p23))
       elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
         print('Загрузка обновления завершена.')
-        sampAddChatMessage((prefix..'Обновление завершено! Подробнее об обновлении - /gglog.'), color)
+        sampAddChatMessage((prefix..'Обновление завершено! Подробнее об обновлении - /glonasslog.'), color)
         goupdatestatus = true
         thisScript():reload()
       end
