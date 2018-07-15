@@ -12,19 +12,23 @@
 * Стоит заметить, что в интерьере координаты не обновляются, т.е. если вызвать помощь в интерьере, то вызов отправится по тем последним координатам вне интерьера.  
 * В скрипте реализовано автообновление, которое можно вырубить в настройках.  
 
-**Требования:** [CLEO 4.3](http://cleo.li/?lang=ru), [SAMPFUNCS 5.3.3](https://blast.hk/threads/17/), [MoonLoader](https://blast.hk/threads/13305/), [SAMP.Lua](https://blast.hk/threads/14624/).  
+**Требования:** [CLEO 4+](http://cleo.li/?lang=ru), [SAMPFUNCS 5.3.3](https://blast.hk/threads/17/), [MoonLoader](https://blast.hk/threads/13305/), [SAMP.Lua](https://blast.hk/threads/14624/).  
 **Активация:** Скрипт активируется автоматически. У скрипта нет настроек, поэтому автообновление, телеметрию и уведомление при входе можно отключить только вручную, вырезав блокнотом по линии в коде.
 
-* **P** - вызвать [меню вызова помощи](https://i.imgur.com/Lx8fEiS.jpg?1).
-* **]** - вызвать [меню принятия помощи](https://i.imgur.com/kpUoSKn.jpg?1).
+* **P** - вызвать меню вызова помощи.
+* **]** - вызвать меню принятия помощи.
 * **Z** - быстро принять последний вызов.
 * **/glean** - удалить все созданные скриптом метки и пикапы, остановить динамические процессы.
-* **/glonass** - открыть [меню скрипта](https://i.imgur.com/icxXKuw.jpg?1).
+* **/glonass** - открыть меню скрипта.
 
-**Автор:** [rubbishman (James_Bond / Phil_Coulson)](http://rubbishman.ru/samp).
+**Автор:** [qrlk (James_Bond / Phil_Coulson)](http://rubbishman.ru/samp).  
+**Обсуждение в группе VK:** [ссылка](https://vk.com/topic-168860334_38597266).
 
 # Скриншот
-![https://i.imgur.com/bb1cPWw.jpg?1](https://i.imgur.com/bb1cPWw.jpg?1)
+![https://i.imgur.com/kGt5qJi.png](https://i.imgur.com/kGt5qJi.png)  
+![https://i.imgur.com/0lIM4lS.png](https://i.imgur.com/0lIM4lS.png)  
+![https://i.imgur.com/3W1ARBa.png](https://i.imgur.com/3W1ARBa.png)  
+![https://i.imgur.com/25KTMBQ.png](https://i.imgur.com/25KTMBQ.png)
 # Видео
 На видео обзор очень ранней версии, записано 19 октября. С тех пор многое было измененилось, но основные принципы понятны. Сейчас нет возможности переснять.  
 [![Открыть](https://img.youtube.com/vi/OOPOaqNHHho/0.jpg)](https://www.youtube.com/watch?v=OOPOaqNHHho)
