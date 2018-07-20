@@ -4,10 +4,12 @@
 -------------------------------------META---------------------------------------
 --------------------------------------------------------------------------------
 script_name("GLONASS")
-script_version("2.88")
-script_author("rubbishman")
+script_version("2.9")
+script_author("qrlk")
 script_description("/glonass")
-script_changelog = [[{ffcc00}v2.88 [15.07.18]{ffffff}
+script_changelog = [[{ffcc00}v2.9 [20.07.18]{ffffff}
+1. При приеме вызова на квадрат ставится метка на карте (из сингла).
+{ffcc00}v2.88 [15.07.18]{ffffff}
 1. Ребрендинг, группа вк. Серьёзно, подписывайтесь.
 2. Теперь changelog можно прочитать, открыв файл блокнотом.
 {ffcc00}v2.2 [17.05.18]{ffffff}
@@ -409,7 +411,7 @@ function bihelp(calltype)
   if calltype == 12 and coordX ~= nil and coordY ~= nil then
     if doesBlipExist(marker0) then removeBlip(marker0) end
     sampSendChat('/f [ГЛOНACС] 10-4 '..kvadY..'-'..kvadX.. '. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(coordX, coordY, cX, cY))..' м.')
-    marker0 = addSpriteBlipForCoord(coordX, coordY, 0, 37)
+    placeWaypoint(coordX, coordY, 0)
   end
 end
 -- СКРИПТОВЫЙ ПОТОК, КОТОРЫЙ ЗАНИМАЕТСЯ ДИНАМИЧЕСКОЙ МЕТКОЙ FOLLOW
