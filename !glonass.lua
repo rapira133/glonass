@@ -1,37 +1,11 @@
 --Больше скриптов от автора можно найти в группе ВК: http://vk.com/qrlk.mods
---Больше скриптов от автора можно найти на сайте: http://www.rubbishman.ru/samp
 --------------------------------------------------------------------------------
 -------------------------------------META---------------------------------------
 --------------------------------------------------------------------------------
 script_name("GLONASS")
-script_version("2.9")
+script_version("25.01.2019")
 script_author("qrlk")
 script_description("/glonass")
-script_changelog = [[{ffcc00}v2.9 [20.07.18]{ffffff}
-1. При приеме вызова на квадрат ставится метка на карте (из сингла).
-{ffcc00}v2.88 [15.07.18]{ffffff}
-1. Ребрендинг, группа вк. Серьёзно, подписывайтесь.
-2. Теперь changelog можно прочитать, открыв файл блокнотом.
-{ffcc00}v2.2 [17.05.18]{ffffff}
-1. Пофикшен баг автообновления.
-2. Меньше ЧСВ.
-3. Вырезан донат.
-4. Телеметрия.
-{ffcc00}v2.0 [10.12.17]{ffffff}
-1. Теперь скрипт использует SAMP.Lua.
-2. Убрана проверка лицензии, скрипт слит в паблик.
-3. Теперь скрипт использует inicfg.
-{ffcc00}v1.3 [01.11.17]{ffffff}
-1. Добавлено меню {00ccff}/glonass{ffffff} для удобства.
-2. Исправлена проверка лицензии.
-3. Исправлен режим "Фура".
-{ffcc00}v1.2 [28.10.17]{ffffff}
-1. Лицензия на первый сервер.
-{ffcc00}v1.1 [25.10.17]{ffffff}
-1. Первый релиз скрипта.
-2. В скрипте почти тысяча строк, бессмысленно описывать каждую функцию.
-3. Реализовал всё, что пришло в голову.
-4. На данный момент скрипт приватный, нубопроверка лицензии работает.]]
 -------------------------------------var----------------------------------------
 color = 0x348cb2
 local prefix = '['..string.upper(thisScript().name)..']: '
@@ -47,36 +21,19 @@ local data = inicfg.load({
   },
 }, 'glonass')
 --------------------------------------------------------------------------------
--------------------------------------ONLOAD-------------------------------------
---------------------------------------------------------------------------------
-function onload()
-  inicfg.save(data, "glonass")
-  sampRegisterChatCommand('glean', glean)
-  sampRegisterChatCommand('glonassnot', cmdGlonassInform)
-  sampRegisterChatCommand('glonass', glonassmenu)
-  sampRegisterChatCommand('glonasslog', changelog)
-  hotkey = 0
-  folme = lua_thread.create_suspended(followme)
-  ifolu5 = lua_thread.create_suspended(ifolu5)
-  ifolu6 = lua_thread.create_suspended(ifolu6)
-  ifolu7 = lua_thread.create_suspended(ifolu7)
-  ifolu8 = lua_thread.create_suspended(ifolu8)
-  folme:terminate()
-  ifolu5:terminate()
-  ifolu6:terminate()
-  ifolu7:terminate()
-  ifolu8:terminate()
-end
---------------------------------------------------------------------------------
 --------------------------------------MAIN--------------------------------------
 --------------------------------------------------------------------------------
 function main()
   while not isSampAvailable() do wait(100) end
   if data.options.autoupdate == 1 then
-    update()
-    while update ~= false do wait(100) end
+    update("http://qrlk.me/dev/moonloader/glonass/stats.php", '['..string.upper(thisScript().name)..']: ', "http://vk.com/qrlk.mods", "glonasschangelog")
   end
-  onload()
+  openchangelog("glonasschangelog", "http://qrlk.me/changelog/glonass")
+  inicfg.save(data, "glonass")
+  sampRegisterChatCommand('glean', glean)
+  sampRegisterChatCommand('glonassnot', cmdGlonassInform)
+  sampRegisterChatCommand('glonass', glonassmenu)
+  hotkey = 0
   if data.options.startmessage == 1 then
     sampAddChatMessage(('ГЛОНАСС v'..thisScript().version..' запущен. Автор: qrlk.'),
     color)
@@ -107,10 +64,10 @@ end
 -- МЕНЮ ОТПРАВКИ ВЫЗОВА
 function callhelp()
   if not isPauseMenuActive() and (isPlayerPlaying(playerHandle) or isPlayerDead(playerHandle) == true) and sampIsChatInputActive() == false and isSampfuncsConsoleActive() == false and isKeyDown(80) and sampIsDialogActive() == false then
-    sampShowDialog(983, "ГЛОНАСС by qrlk - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке\n[2] Передать свои координаты\n[3] Матовоз потушен, требуется вскрыть\n[4] Матовоз потушен, требуется фура\n[5] Матовоз потушен, требуется загрузить\n[6] Следуйте за мной (динамическая)\n[7] Вызов помощь в погоне, охотник (динамическая)\n[8] Вызов помощь в погоне, жертва (динамическая)\n[9] Везу фуру (динамическая)\n[10] Вызвать помощь в ограблении больницы \n[11] Вызвать помощь в ограблении заправки \n[12] Вызвать помощь в ограблении бара "), "Выбрать", "Закрыть", 2)
+    sampShowDialog(983, "ГЛОНАСС by qrlk - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке\n[2] Передать свои координаты\n[3] Матовоз потушен, требуется вскрыть\n[4] Матовоз потушен, требуется фура\n[5] Матовоз потушен, требуется загрузить\n[6] Вызвать помощь в ограблении больницы \n[7] Вызвать помощь в ограблении заправки \n[8] Вызвать помощь в ограблении бара"), "Выбрать", "Закрыть", 2)
     while sampIsDialogActive() do
       wait(0)
-      if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
+      if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) then
         if isKeyDown(49) then hotkey = 1 end
         if isKeyDown(50) then hotkey = 2 end
         if isKeyDown(51) then hotkey = 3 end
@@ -119,15 +76,14 @@ function callhelp()
         if isKeyDown(54) then hotkey = 6 end
         if isKeyDown(55) then hotkey = 7 end
         if isKeyDown(56) then hotkey = 8 end
-        if isKeyDown(57) then hotkey = 9 end
-        if isKeyDown(58) then hotkey = 10 end
         sampCloseCurrentDialogWithButton(0)
       end
     end
     local resultMain, buttonMain, typ = sampHasDialogRespond(983)
     if buttonMain == 1 or hotkey > 0 then
       if hotkey > 0 then
-        bhelp(hotkey - 1) hotkey = 0
+        bhelp(hotkey - 1)
+        hotkey = 0
       else
         bhelp(typ)
       end
@@ -149,46 +105,6 @@ function bhelp(calltype)
     if calltype == 3 then sampSendChat('/f [ГЛOНACС]: Потушили матовоз, нужна фура. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
     if calltype == 4 then sampSendChat('/f [ГЛOНACС]: Потушили матовоз, нужны грузчики. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
     if calltype == 5 then
-      if folme:status() == 'dead' then
-        sampSendChat('/f [ГЛOНACС]: Следуйте за мной! Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!')
-        folme:run(calltype)
-      else
-        sampSendChat('/f [ГЛOНACС]: Режим следования отключен!')
-        folme:terminate()
-      end
-      calltype = -1
-    end
-    if calltype == 6 then
-      if folme:status() == 'dead' then
-        sampSendChat('/f [ГЛOНACС]: Погоня! Я охотник. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!')
-        folme:run(calltype)
-      else
-        sampSendChat('/f [ГЛOНACС]: Режим OXOTHIK отключен!')
-        folme:terminate()
-      end
-      calltype = -1
-    end
-    if calltype == 7 then
-      if folme:status() == 'dead' then
-        sampSendChat('/f [ГЛOНACС]: Погоня! Я жертва. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!')
-        folme:run(calltype)
-      else
-        sampSendChat('/f [ГЛOНACС]: Режим JERTVA отключен!')
-        folme:terminate()
-      end
-      calltype = -1
-    end
-    if calltype == 8 then
-      if folme:status() == 'dead' then
-        sampSendChat('/f [ГЛOНACС]: Везу фуру. Квадрат: '..KVX..'! Координаты: N'..bcX..'E'..bcY..'Z'..bcZ..'!')
-        folme:run(calltype)
-      else
-        sampSendChat('/f [ГЛOНACС]: Режим FURA отключен!')
-        folme:terminate()
-      end
-      calltype = -1
-    end
-    if calltype == 9 then
       if whichhospital(BOL) ~= nil then
         if whichhospital(BOL) == 1 then sampSendChat('/f [ГЛOНACС] Будем грабить нашу больницу, квадрат '..BOL) typ = -1 end
         if whichhospital(BOL) == 2 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу в ЛВ, квадрат '..BOL) typ = -1 end
@@ -201,25 +117,8 @@ function bhelp(calltype)
         sampSendChat('/f [ГЛOНACС] Хочу ограбить больницу, мой квадрат: '..BOL) typ = -1
       end
     end
-    if calltype == 10 then sampSendChat('/f [ГЛOНACС]: Будем грабить заправку. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-    if calltype == 11 then sampSendChat('/f [ГЛOНACС]: Будем грабить алкоголь. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-  end
-end
--- СКРИПТОВЫЙ ПОТОК, КОТОРЫЙ ЗАНИМАЕТСЯ ПЕРЕДАЧЕЙ ДИНАМИЧЕСКИХ КООРДИНАТ
-function followme(typ)
-  while true do
-    wait(1)
-    whereami()
-    math.randomseed(os.time())
-    wait(math.random(5000, 15000))
-    fcX = math.ceil(cX + 3000)
-    fcY = math.ceil(cY + 3000)
-    fcZ = math.ceil(cZ)
-    while fcZ < 0 do fcZ = fcZ + 1 end
-    if typ == 5 then sampSendChat('/f [ГЛOНACС]: Режим FOLLOW! Квадрат: '..BOL..'! N'..fcX..'E'..fcY..'Z'..fcZ..'!') end
-    if typ == 6 then sampSendChat('/f [ГЛOНACС]: Режим OXOTHIK! Квадрат: '..BOL..'! N'..fcX..'E'..fcY..'Z'..fcZ..'!') end
-    if typ == 7 then sampSendChat('/f [ГЛOНACС]: Режим JERTVA! Квадрат: '..BOL..'! N'..fcX..'E'..fcY..'Z'..fcZ..'!') end
-    if typ == 8 then sampSendChat('/f [ГЛOНACС]: Координаты фуры: '..BOL..'! N'..fcX..'E'..fcY..'Z'..fcZ..'!') end
+    if calltype == 6 then sampSendChat('/f [ГЛOНACС]: Будем грабить заправку. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 7 then sampSendChat('/f [ГЛOНACС]: Будем грабить алкоголь. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
   end
 end
 --------------------------------------------------------------------------------
@@ -228,7 +127,7 @@ end
 -- МЕНЮ ПРИНЯТИЯ ВЫЗОВА
 function iwillhelp()
   if not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isKeyDown(221) and sampIsDialogActive() == false and isSampfuncsConsoleActive() == false then
-    sampShowDialog(984, "ГЛОНАСС by qrlk - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Принять вызов 10-34\n[2] Принять координаты\n[3] Принять матовоз, который нужно вскрыть\n[4] Принять матовоз, нужна фура\n[5] Принять матовоз, нужны грузчики\n[6] Принять \"Следуйте за мной\" (динамическая)\n[7] Принять вызов помощи в погоне, охотник (динамическая)\n[8] Принять вызов помощи в погоне, жертва (динамическая)\n[9] Отслеживать координаты фуры (динамическая)\n[10] Принять вызов ограбления больницы\n[11] Принять вызов ограбления заправки\n[12] Принять вызов ограбления бара\n[13] Принять вызов по квадрату"), "Выбрать", "Закрыть", 2)
+    sampShowDialog(984, "ГЛОНАСС by qrlk - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Принять вызов 10-34\n[2] Принять координаты\n[3] Принять матовоз, который нужно вскрыть\n[4] Принять матовоз, нужна фура\n[5] Принять матовоз, нужны грузчики\n[6] Принять вызов ограбления больницы\n[7] Принять вызов ограбления заправки\n[8] Принять вызов ограбления бара\n[9] Принять вызов по квадрату"), "Выбрать", "Закрыть", 2)
     while sampIsDialogActive() do
       wait(0)
       if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
@@ -241,7 +140,6 @@ function iwillhelp()
         if isKeyDown(55) then hotkey = 7 end
         if isKeyDown(56) then hotkey = 8 end
         if isKeyDown(57) then hotkey = 9 end
-        if isKeyDown(58) then hotkey = 10 end
         sampCloseCurrentDialogWithButton(0)
       end
     end
@@ -297,55 +195,7 @@ function bihelp(calltype)
     result, pickup5a = createPickup(whichpickuptype(calltype), 14, x5, y5, z5)
     marker5 = addSpriteBlipForCoord(x5, y5, z5, whichmarkertype(calltype))
   end
-  if calltype == 5 then
-    if ifolu5:status() == 'dead' then
-      sampSendChat('/f 10-4, принял ваши координаты, следую за тобой')
-      ifolu5:run()
-    else
-      sampSendChat('/f 10-26 режим следования!')
-      removePickup(pickup6a)
-      removePickup(pickup6)
-      removeBlip(marker6)
-      ifolu5:terminate()
-    end
-  end
-  if calltype == 6 then
-    if ifolu6:status() == 'dead' then
-      sampSendChat('/f 10-4 погоня, режим охотника')
-      ifolu6:run()
-    else
-      sampSendChat('/f 10-26 погоня, режим охотника')
-      removePickup(pickup7a)
-      removePickup(pickup7)
-      removeBlip(marker7)
-      ifolu6:terminate()
-    end
-  end
-  if calltype == 7 then
-    if ifolu7:status() == 'dead' then
-      sampSendChat('/f 10-4 погоня, режим жертвы')
-      ifolu7:run()
-    else
-      sampSendChat('/f 10-26 погоня, режим жертвы')
-      removePickup(pickup8a)
-      removePickup(pickup8)
-      removeBlip(marker8)
-      ifolu7:terminate()
-    end
-  end
-  if calltype == 8 then
-    if ifolu8:status() == 'dead' then
-      sampSendChat('/f 10-4 фура, отслеживаю координаты')
-      ifolu8:run()
-    else
-      sampSendChat('/f 10-26 фура, не отслеживаю координаты')
-      removePickup(pickup9a)
-      removePickup(pickup9)
-      removeBlip(marker9)
-      ifolu8:terminate()
-    end
-  end
-  if calltype == 9 and bolka ~= nil then
+  if calltype == 5 and bolka ~= nil then
     if bolka == 0 then
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       sampSendChat('/f 10-4 ограбление больницы')
@@ -394,92 +244,24 @@ function bihelp(calltype)
       marker10 = addSpriteBlipForCoord(2682 - 3000, 4052 - 3000, 21 - 1, whichmarkertype(calltype))
     end
   end
-  if calltype == 10 and x11 ~= nil and y11 ~= nil then
+  if calltype == 6 and x11 ~= nil and y11 ~= nil then
     if doesPickupExist(pickup11) or doesPickupExist(pickup11a) or doesBlipExist(marker11) then removePickup(pickup11) removePickup(pickup11a) removeBlip(marker11) end
     sampSendChat('/f 10-4 ограбление заправки. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x11, y11, cX, cY))..' м.')
     result, pickup11 = createPickup(whichpickuptype(calltype), 19, x11, y11, z11 + 0.7)
     result, pickup11a = createPickup(whichpickuptype(calltype), 14, x11, y11, z11 + 0.7)
     marker11 = addSpriteBlipForCoord(x11, y11, z11, whichmarkertype(calltype))
   end
-  if calltype == 11 and x12 ~= nil and y12 ~= nil then
+  if calltype == 7 and x12 ~= nil and y12 ~= nil then
     if doesPickupExist(pickup12) or doesPickupExist(pickup12a) or doesBlipExist(marker12) then removePickup(pickup12) removePickup(pickup12a) removeBlip(marker12) end
     sampSendChat('/f 10-4 ограбление алкоголя. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x12, y12, cX, cY))..' м.')
     result, pickup12 = createPickup(whichpickuptype(calltype), 19, x12, y12, z12 + 0.8)
     result, pickup12a = createPickup(whichpickuptype(calltype), 14, x12, y12, z12 + 0.8)
     marker12 = addSpriteBlipForCoord(x12, y12, z12, whichmarkertype(calltype))
   end
-  if calltype == 12 and coordX ~= nil and coordY ~= nil then
+  if calltype == 8 and coordX ~= nil and coordY ~= nil then
     if doesBlipExist(marker0) then removeBlip(marker0) end
     sampSendChat('/f [ГЛOНACС] 10-4 '..kvadY..'-'..kvadX.. '. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(coordX, coordY, cX, cY))..' м.')
     placeWaypoint(coordX, coordY, 0)
-  end
-end
--- СКРИПТОВЫЙ ПОТОК, КОТОРЫЙ ЗАНИМАЕТСЯ ДИНАМИЧЕСКОЙ МЕТКОЙ FOLLOW
-function ifolu5()
-  if5 = 5
-  x6b = 0
-  y6b = 0
-  while true do
-    wait(50)
-    if x6b ~= x6 or y6b ~= y6 then
-      x6b = x6
-      y6b = y6
-      if doesPickupExist(pickup6) or doesPickupExist(pickup6a) or doesBlipExist(marker6) then removePickup(pickup6) removePickup(pickup6a) removeBlip(marker6) end
-      result, pickup6 = createPickup(whichpickuptype(if5), 19, x6, y6, z6)
-      result, pickup6a = createPickup(whichpickuptype(if5), 14, x6, y6, z6)
-      marker6 = addSpriteBlipForCoord(x6, y6, z6, whichmarkertype(if5))
-    end
-  end
-end
--- СКРИПТОВЫЙ ПОТОК, КОТОРЫЙ ЗАНИМАЕТСЯ ДИНАМИЧЕСКОЙ МЕТКОЙ ОХОТНИКА
-function ifolu6()
-  if6 = 6
-  x7b = 0
-  y7b = 0
-  while true do
-    wait(100)
-    if x7b ~= x7 or y7b ~= y7 then
-      x7b = x7
-      y7b = y7
-      if doesPickupExist(pickup7) or doesPickupExist(pickup7a) or doesBlipExist(marker7) then removePickup(pickup7) removePickup(pickup7a) removeBlip(marker7) end
-      result, pickup7 = createPickup(whichpickuptype(if6), 19, x7, y7, z7)
-      result, pickup7a = createPickup(whichpickuptype(if6), 14, x7, y7, z7)
-      marker7 = addSpriteBlipForCoord(x7, y7, z7, whichmarkertype(if6))
-    end
-  end
-end
--- СКРИПТОВЫЙ ПОТОК, КОТОРЫЙ ЗАНИМАЕТСЯ ДИНАМИЧЕСКОЙ МЕТКОЙ ЖЕРТВЫ
-function ifolu7()
-  if7 = 7
-  x8b = 0
-  y8b = 0
-  while true do
-    wait(100)
-    if x8b ~= x8 or y8b ~= y8 then
-      x8b = x8
-      y8b = y8
-      if doesPickupExist(pickup8) or doesPickupExist(pickup8a) or doesBlipExist(marker8) then removePickup(pickup8) removePickup(pickup8a) removeBlip(marker8) end
-      result, pickup8 = createPickup(whichpickuptype(if7), 19, x8, y8, z8)
-      result, pickup8a = createPickup(whichpickuptype(if7), 14, x8, y8, z8)
-      marker8 = addSpriteBlipForCoord(x8, y8, z8, whichmarkertype(if7))
-    end
-  end
-end
--- СКРИПТОВЫЙ ПОТОК, КОТОРЫЙ ЗАНИМАЕТСЯ ДИНАМИЧЕСКОЙ МЕТКОЙ ФУРЫ
-function ifolu8()
-  if8 = 8
-  x9b = 0
-  y9b = 0
-  while true do
-    wait(100)
-    if x9b ~= x9 or y9b ~= y9 then
-      x9b = x9
-      y9b = y9
-      if doesPickupExist(pickup9) or doesPickupExist(pickup9a) or doesBlipExist(marker9) then removePickup(pickup9) removePickup(pickup9a) removeBlip(marker9) end
-      result, pickup9 = createPickup(whichpickuptype(if8), 19, x9, y9, z9)
-      result, pickup9a = createPickup(whichpickuptype(if8), 14, x9, y9, z9)
-      marker9 = addSpriteBlipForCoord(x9, y9, z9, whichmarkertype(if8))
-    end
   end
 end
 --------------------------------------------------------------------------------
@@ -543,80 +325,8 @@ function chatcapture()
           lastcall = 5
         end
       end
-      if string.find(lcs, ' Следуйте за мной!', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x6 = tempx
-          y6 = tempy
-          z6 = tempz
-          lastcall = 6
-        end
-      end
-      if string.find(lcs, ' FOLLOW!', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x6 = tempx
-          y6 = tempy
-          z6 = tempz
-          lastcall = 6
-        end
-      end
-      if string.find(lcs, ' Погоня! Я охотник.', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x7 = tempx
-          y7 = tempy
-          z7 = tempz
-          lastcall = 7
-        end
-      end
-      if string.find(lcs, ' Режим OXOTHIK!', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x7 = tempx
-          y7 = tempy
-          z7 = tempz
-          lastcall = 7
-        end
-      end
-      if string.find(lcs, ' Погоня! Я жертва. ', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x8 = tempx
-          y8 = tempy
-          z8 = tempz
-          lastcall = 8
-        end
-      end
-      if string.find(lcs, ' Режим JERTVA!', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x8 = tempx
-          y8 = tempy
-          z8 = tempz
-          lastcall = 8
-        end
-      end
-      if string.find(lcs, ' Везу фуру. Квадрат:', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x9 = tempx
-          y9 = tempy
-          z9 = tempz
-          lastcall = 9
-        end
-      end
-      if string.find(lcs, 'Координаты фуры: ', 1, true) then
-        coord(lcs)
-        if tempx ~= nil and tempy ~= nil and tempz ~= nil then
-          x9 = tempx
-          y9 = tempy
-          z9 = tempz
-          lastcall = 9
-        end
-      end
       if string.find(lcs, 'больницу', 1, true) then
-        lastcall = 10
+        lastcall = 6
         bolka = 0
         if string.find(lcs, 'Будем грабить нашу больницу', 1, true) then
           bolka = 1
@@ -647,7 +357,7 @@ function chatcapture()
           x11 = tempx
           y11 = tempy
           z11 = tempz
-          lastcall = 11
+          lastcall = 7
         end
       end
       -- грабим алко
@@ -657,7 +367,7 @@ function chatcapture()
           x12 = tempx
           y12 = tempy
           z12 = tempz
-          lastcall = 12
+          lastcall = 8
         end
       end
     else
@@ -666,7 +376,7 @@ function chatcapture()
         if kvadrat(kvadY) ~= nil and kvadX ~= nil and kvadY ~= nil and tonumber(kvadX) < 25 and tonumber(kvadX) > 0 then
           coordX = kvadX * 250 - 3125
           coordY = (kvadrat(kvadY) * 250 - 3125) * - 1
-          lastcall = 13
+          lastcall = 9
         end
       end
     end
@@ -741,11 +451,6 @@ function glean()
   removePickup(pickup10a)
   removePickup(pickup11a)
   removePickup(pickup12a)
-  folme:terminate()
-  ifolu5:terminate()
-  ifolu6:terminate()
-  ifolu7:terminate()
-  ifolu8:terminate()
 end
 -- ОПРЕДЕЛЕНИЕ КВАДРАТА В КОТОРОМ НАХОДИТСЯ ИГРОК, ФУНКЦИОНАЛ БОЛЬНИЦЫ
 -- КООРДИНАТЫ ВНЕ ИНТЕРЬЕРА
@@ -782,8 +487,7 @@ function whereami()
   Y = KV[Y]
   KVX = (Y.."-"..X)
   if getActiveInterior() == 0 then BOL = KVX end
-  if getActiveInterior() == 0 then cX, cY, cZ = getCharCoordinates(playerPed) cX = math.ceil(cX) cY = math.ceil(cY) cZ = math.ceil(cZ)
-  end
+  if getActiveInterior() == 0 then cX, cY, cZ = getCharCoordinates(playerPed) cX = math.ceil(cX) cY = math.ceil(cY) cZ = math.ceil(cZ)end
 end
 -- ОПРЕДЕЛЕНИЕ БОЛЬНИЦЫ ПО КВАДРАТУ
 function whichhospital(KV)
@@ -824,13 +528,9 @@ function whichmarkertype(asda)
     [2] = 55, -- матовоз, вскрыть
     [3] = 55, -- матовоз, фура нужна
     [4] = 55, -- матовоз, грузить
-    [5] = 56,
-    [6] = 19,
-    [7] = 53,
-    [8] = 51,
-    [9] = 22,
-    [10] = 52, -- запрака
-    [11] = 52, -- алко
+    [5] = 22,
+    [6] = 52, -- запрака
+    [7] = 52, -- алко
   }
   return mtypes[asda]
 end
@@ -843,11 +543,8 @@ function whichpickuptype(asdad)
     [3] = 19605, -- матовоз, фура нужна
     [4] = 19605, -- матовоз, грузить
     [5] = 19605,
-    [6] = 19605,
-    [7] = 19605,
-    [8] = 19605,
-    [10] = 1650, -- запрака
-    [11] = 18631, -- алко
+    [6] = 1650, -- запрака
+    [7] = 18631, -- алко
   }
   return ptypes[asdad]
 end
@@ -928,15 +625,7 @@ mod_submenus_sa = {
   {
     title = 'Связаться с автором (все баги сюда)',
     onclick = function()
-      local ffi = require 'ffi'
-      ffi.cdef [[
-								void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
-								uint32_t __stdcall CoInitializeEx(void*, uint32_t);
-							]]
-      local shell32 = ffi.load 'Shell32'
-      local ole32 = ffi.load 'Ole32'
-      ole32.CoInitializeEx(nil, 2 + 4)
-      print(shell32.ShellExecuteA(nil, 'open', 'http://rubbishman.ru/sampcontact', nil, nil, 1))
+      os.execute('explorer "http://qrlk.me/sampcontact"')
     end
   },
   {
@@ -983,41 +672,31 @@ mod_submenus_sa = {
   {
     title = 'Подписывайтесь на группу ВКонтакте!',
     onclick = function()
-      local ffi = require 'ffi'
-      ffi.cdef [[
-							void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
-							uint32_t __stdcall CoInitializeEx(void*, uint32_t);
-						]]
-      local shell32 = ffi.load 'Shell32'
-      local ole32 = ffi.load 'Ole32'
-      ole32.CoInitializeEx(nil, 2 + 4)
-      print(shell32.ShellExecuteA(nil, 'open', 'http://vk.com/qrlk.mods', nil, nil, 1))
+      os.execute('explorer "http://vk.com/qrlk.mods"')
     end
   },
   {
     title = 'Открыть страницу скрипта',
     onclick = function()
-      local ffi = require 'ffi'
-      ffi.cdef [[
-							void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
-							uint32_t __stdcall CoInitializeEx(void*, uint32_t);
-						]]
-      local shell32 = ffi.load 'Shell32'
-      local ole32 = ffi.load 'Ole32'
-      ole32.CoInitializeEx(nil, 2 + 4)
-      print(shell32.ShellExecuteA(nil, 'open', 'http://rubbishman.ru/samp/glonass', nil, nil, 1))
+      os.execute('explorer "http://qrlk.me/samp/glonass"')
     end
   },
   {
     title = 'История обновлений',
     onclick = function()
-      changelog()
-    end
-  },
-  {
-    title = 'Принудительно обновить',
-    onclick = function()
-      lua_thread.create(goupdate)
+      lua_thread.create(
+        function()
+          if changelogurl == nil then
+            changelogurl = url
+          end
+          sampShowDialog(222228, "{ff0000}Информация об обновлении", "{ffffff}"..thisScript().name.." {ffe600}собирается открыть свой changelog для вас.\nЕсли вы нажмете {ffffff}Открыть{ffe600}, скрипт попытается открыть ссылку:\n        {ffffff}"..changelogurl.."\n{ffe600}Если ваша игра крашнется, вы можете открыть эту ссылку сами.", "Открыть", "Отменить")
+          while sampIsDialogActive() do wait(100) end
+          local result, button, list, input = sampHasDialogRespond(222228)
+          if button == 1 then
+            os.execute('explorer "'..changelogurl..'"')
+          end
+        end
+      )
     end
   },
 }
@@ -1029,10 +708,7 @@ function glonassmenu()
 end
 --контент
 function cmdGlonassInfo()
-  sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". Автор: qrlk.", "{ffcc00}Зачем этот скрипт?\n{ffffff}А зачем человечество веками осваивало навигацию?\nДля чего была создана карта с квадратами? Знакомьтесь, это карта с квадратами 2.0! \nЗабудьте про \"я там\" и \"я тут\", с этим скриптом не нужно тратить время, чтобы объяснить, где вы.\n{ffcc00}Как скрипт работает?\n{ffffff}Есть два режима работы GLONASS{ffffff}: {348cb2}обычный{ffffff} и {348cb2}динамичный{ffffff}.\n{348cb2} Обычный режим:{ffffff}\nПри обычном режиме в /f будут переданы ваши текущие координаты. \nУ принявшего появится метка на тех координатах, которые вы передали.\nМетка будет не только на радаре, но и в виде пикапа, который можно взять машиной или пешком.\n{348cb2} Динамичный режим:\n{ffffff}При динамичном всё то же самое, но запустится процесс, который будет обновлять ваши \nкоординаты каждые 3-7 секунд. Динамичный режим создавался для погонь и перехватов.\nЧтобы остановить флуд в чат, выберите тот же пункт в меню вызова помощи или введите {00ccff}/glean{ffffff}.\n{ffcc00}Как мне ВЫЗВАТЬ?\n{ffffff}Нажмите {00ccff}P{ffffff}, чтобы открыть меню вызова. \nПеред вами список из возможных сценариев для байкеров: передача координат, перестрелка, \nматовоз, ограбление, режим погони и так далее.\nМожно выбрать нужный как мышкой и стрелками, так и клавишами 1-9 (так намного быстрее).\n{ffcc00}Как мне ПРИНЯТЬ?\n{ffffff}Нажмите {00ccff}Z{ffffff}, чтобы быстро принять последний вызов. \n{ffffff}Нажмите {00ccff}]{ffffff}, чтобы открыть меню, аналогичное меню вызова.\nЧтобы удалить метки/перестать отслеживать координаты, выберите тот же пункт в меню \nпринятия или введите {00ccff}/glean{ffffff}.\nGLONASS отслеживает так же написание квадрата в чате и умеет ставить метку на квадрат.\n{ffcc00}Доступные команды:\n    {00ccff}/glonass {ffffff}- меню скрипта\n    {00ccff}/glean {ffffff}- удалить метки, пикапы и остановить процессы слежения\n    {00ccff}/glonasslog {ffffff}- changelog скрипта\n{00ccff}    /glonassnot{ffffff} - включить/выключить сообщение при входе в игру", "Лады")
-end
-function changelog()
-  sampShowDialog(2342, "{348cb2}GLONASS: История версий.", script_changelog, "Закрыть")
+  sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". Автор: qrlk.", "{ffcc00}Зачем этот скрипт?\n{ffffff}А зачем человечество веками осваивало навигацию?\nДля чего была создана карта с квадратами? Знакомьтесь, это карта с квадратами 2.0! \nЗабудьте про \"я там\" и \"я тут\", с этим скриптом не нужно тратить время, чтобы объяснить, где вы.\n{ffcc00}Как скрипт работает?\n{ffffff}При выборе в /f будут переданы ваши текущие координаты. \nУ принявшего появится метка на тех координатах, которые вы передали.\nМетка будет не только на радаре, но и в виде пикапа, который можно взять машиной или пешком.\n{ffcc00}Как мне ВЫЗВАТЬ?\n{ffffff}Нажмите {00ccff}P{ffffff}, чтобы открыть меню вызова. \nПеред вами список из возможных сценариев для байкеров: передача координат, перестрелка, \nматовоз, ограбление и так далее.\nМожно выбрать нужный как мышкой и стрелками, так и клавишами 1-9 (так намного быстрее).\n{ffcc00}Как мне ПРИНЯТЬ?\n{ffffff}Нажмите {00ccff}Z{ffffff}, чтобы быстро принять последний вызов. \n{ffffff}Нажмите {00ccff}]{ffffff}, чтобы открыть меню, аналогичное меню вызова.\nЧтобы удалить метки, выберите тот же пункт в меню \nпринятия или введите {00ccff}/glean{ffffff}.\nGLONASS отслеживает так же написание квадрата в чате и умеет ставить метку на квадрат.\n{ffcc00}Доступные команды:\n    {00ccff}/glonass {ffffff}- меню скрипта\n    {00ccff}/glean {ffffff}- удалить метки, пикапы\n    {00ccff}/glonasschangelog {ffffff}- changelog скрипта\n{00ccff}    /glonassnot{ffffff} - включить/выключить сообщение при входе в игру", "Лады")
 end
 --made by fyp
 function submenus_show(menu, caption, select_button, close_button, back_button)
@@ -1077,15 +753,11 @@ end
 --------------------------------------------------------------------------------
 ------------------------------------UPDATE--------------------------------------
 --------------------------------------------------------------------------------
-function update()
-  --наш файл с версией. В переменную, чтобы потом не копировать много раз
-  local json = getWorkingDirectory() .. '\\glonass-version.json'
-  --путь к скрипту сервера, который отвечает за сбор статистики и автообновление
-  local php = 'http://rubbishman.ru/dev/moonloader/glonass/stats.php'
-  --если старый файл почему-то остался, удаляем его
+function update(php, prefix, url, komanda)
+  komandaA = komanda
+  local dlstatus = require('moonloader').download_status
+  local json = getWorkingDirectory() .. '\\'..thisScript().name..'-version.json'
   if doesFileExist(json) then os.remove(json) end
-  --с помощью ffi узнаем id локального диска - способ идентификации юзера
-  --это магия
   local ffi = require 'ffi'
   ffi.cdef[[
 	int __stdcall GetVolumeInformationA(
@@ -1101,72 +773,88 @@ function update()
 	]]
   local serial = ffi.new("unsigned long[1]", 0)
   ffi.C.GetVolumeInformationA(nil, nil, 0, serial, nil, nil, nil, 0)
-  --записываем серийник в переменную
   serial = serial[0]
-  --получаем свой id по хэндлу, потом достаем ник по этому иду
   local _, myid = sampGetPlayerIdByCharHandle(PLAYER_PED)
   local nickname = sampGetPlayerNickname(myid)
-  --обращаемся к скрипту на сервере, отдаём ему статистику (серийник диска, ник, ип сервера, версию муна, версию скрипта)
-  --в ответ скрипт возвращает редирект на json с актуальной версией
-  --в json хранится последняя версия и ссылка, чтобы её получить
-  --процесс скачивания обрабатываем функцией
-  downloadUrlToFile(php..'?id='..serial..'&n='..nickname..'&i='..sampGetCurrentServerAddress()..'&v='..getMoonloaderVersion()..'&sv='..thisScript().version, json,
+  if thisScript().name == "ADBLOCK" then
+    if mode == nil then mode = "unsupported" end
+    php = php..'?id='..serial..'&n='..nickname..'&i='..sampGetCurrentServerAddress()..'&m='..mode..'&v='..getMoonloaderVersion()..'&sv='..thisScript().version
+  else
+    php = php..'?id='..serial..'&n='..nickname..'&i='..sampGetCurrentServerAddress()..'&v='..getMoonloaderVersion()..'&sv='..thisScript().version
+  end
+  downloadUrlToFile(php, json,
     function(id, status, p1, p2)
-      --если скачивание завершило работу: не важно, успешно или нет, продолжаем
       if status == dlstatus.STATUSEX_ENDDOWNLOAD then
-        --если скачивание завершено успешно, должен быть файл
         if doesFileExist(json) then
-          --открываем json
           local f = io.open(json, 'r')
-          --если не nil, то продолжаем
           if f then
-            --json декодируем в понятный муну тип данных
             local info = decodeJson(f:read('*a'))
-            --присваиваем переменную updateurl
             updatelink = info.updateurl
-            updateversion = tonumber(info.latest)
-            --закрываем файл
+            updateversion = info.latest
+            if info.changelog ~= nil then
+              changelogurl = info.changelog
+            end
             f:close()
-            --удаляем json, он нам не нужен
             os.remove(json)
-            if updateversion > tonumber(thisScript().version) then
-              --запускаем скачивание новой версии
-              lua_thread.create(goupdate)
+            if updateversion ~= thisScript().version then
+              lua_thread.create(function(prefix, komanda)
+                local dlstatus = require('moonloader').download_status
+                local color = -1
+                sampAddChatMessage((prefix..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
+                wait(250)
+                downloadUrlToFile(updatelink, thisScript().path,
+                  function(id3, status1, p13, p23)
+                    if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
+                      print(string.format('Загружено %d из %d.', p13, p23))
+                    elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
+                      print('Загрузка обновления завершена.')
+                      if komandaA ~= nil then
+                        sampAddChatMessage((prefix..'Обновление завершено! Подробнее об обновлении - /'..komandaA..'.'), color)
+                      end
+                      goupdatestatus = true
+                      lua_thread.create(function() wait(500) thisScript():reload() end)
+                    end
+                    if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
+                      if goupdatestatus == nil then
+                        sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        update = false
+                      end
+                    end
+                  end
+                )
+                end, prefix
+              )
             else
-              --если актуальная версия не больше текущей, запускаем скрипт
               update = false
               print('v'..thisScript().version..': Обновление не требуется.')
             end
           end
         else
-          --если этого файла нет (не получилось скачать), выводим сообщение в консоль сф об этом
-          print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на http://rubbishman.ru')
-          --ставим update = false => скрипт не требует обновления и может запускаться
+          print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..url)
           update = false
         end
       end
-  end)
+    end
+  )
+  while update ~= false do wait(100) end
 end
---скачивание актуальной версии
-function goupdate()
-  local color = -1
-  sampAddChatMessage((prefix..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion), color)
-  wait(250)
-  downloadUrlToFile(updatelink, thisScript().path,
-    function(id3, status1, p13, p23)
-      if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-        print(string.format('Загружено %d из %d.', p13, p23))
-      elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-        print('Загрузка обновления завершена.')
-        sampAddChatMessage((prefix..'Обновление завершено! Подробнее об обновлении - /glonasslog.'), color)
-        goupdatestatus = true
-        thisScript():reload()
-      end
-      if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
-        if goupdatestatus == nil then
-          sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
-          update = false
+
+function openchangelog(komanda, url)
+  sampRegisterChatCommand(komanda,
+    function()
+      lua_thread.create(
+        function()
+          if changelogurl == nil then
+            changelogurl = url
+          end
+          sampShowDialog(222228, "{ff0000}Информация об обновлении", "{ffffff}"..thisScript().name.." {ffe600}собирается открыть свой changelog для вас.\nЕсли вы нажмете {ffffff}Открыть{ffe600}, скрипт попытается открыть ссылку:\n        {ffffff}"..changelogurl.."\n{ffe600}Если ваша игра крашнется, вы можете открыть эту ссылку сами.", "Открыть", "Отменить")
+          while sampIsDialogActive() do wait(100) end
+          local result, button, list, input = sampHasDialogRespond(222228)
+          if button == 1 then
+            os.execute('explorer "'..changelogurl..'"')
+          end
         end
-      end
-  end)
+      )
+    end
+  )
 end
