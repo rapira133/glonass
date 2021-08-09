@@ -23,7 +23,9 @@ It also requires **[CLEO 4+](http://cleo.li/?lang=ru)**, **[SAMPFUNCS 5+](https:
 ---
 
 **The following description is in Russian, because it is the main language of the user base**.
-
+<details>
+  <summary>Описание на русском языке.</summary>
+  
 # Описание 
 Как-то я писал функцию для определения квадрата, в котором находится игрок, и мне в голову пришла мысль, что эти квадраты устарели и вообще не нужны. Ведь намного проще передать точные координаты через чат и принять эти же координаты из чата, чем искать квадрат по карте. Знакомтесь, **GLONASS**.  
 
@@ -55,3 +57,4 @@ It also requires **[CLEO 4+](http://cleo.li/?lang=ru)**, **[SAMPFUNCS 5+](https:
 # Видео
 На видео обзор очень ранней версии, записано 19 октября. С тех пор многое было измененилось, но основные принципы понятны. Сейчас нет возможности переснять.  
 [![Открыть](https://img.youtube.com/vi/OOPOaqNHHho/0.jpg)](https://www.youtube.com/watch?v=OOPOaqNHHho)
+</details>
