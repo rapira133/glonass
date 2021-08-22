@@ -17,7 +17,6 @@ local data = inicfg.load({
   {
     startmessage = 1,
     autoupdate = 1,
-    showad = true,
   },
 }, 'glonass')
 --------------------------------------------------------------------------------
@@ -39,14 +38,7 @@ function main()
     color)
     sampAddChatMessage(('Подробнее - /glonass. Отключить это сообщение - /glonassnot'), color)
   end
-  if data.options.showad == true then
-    sampAddChatMessage("[GLONASS]: Внимание! У нас появилась группа ВКонтакте: vk.com/qrlk.mods", - 1)
-    sampAddChatMessage("[GLONASS]: Подписавшись на неё, вы сможете получать новости об обновлениях,", - 1)
-    sampAddChatMessage("[GLONASS]: новых скриптах, а так же учавствовать в розыгрышах платных скриптов!", - 1)
-    sampAddChatMessage("[GLONASS]: Это сообщение показывается один раз для каждого скрипта. Спасибо за внимание.", - 1)
-    data.options.showad = false
-    inicfg.save(data, "glonass")
-  end
+
   while true do
     if menutrigger ~= nil then menu() menutrigger = nil end
     wait(0)
