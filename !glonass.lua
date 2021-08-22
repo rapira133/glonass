@@ -6,6 +6,7 @@ script_name("GLONASS")
 script_version("25.01.2019")
 script_author("qrlk")
 script_description("/glonass")
+script_url("https://github.com/qrlk/glonass")
 -------------------------------------var----------------------------------------
 color = 0x348cb2
 local prefix = '['..string.upper(thisScript().name)..']: '
