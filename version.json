@@ -1,5 +1,6 @@
 {
   "latest": "25.01.2019",
   "updateurl": "https://raw.githubusercontent.com/qrlk/glonass/master/!glonass.lua",
-  "changelog": "https://github.com/qrlk/glonass/blob/master/CHANGELOG.md"
+  "changelog": "https://github.com/qrlk/glonass/blob/master/CHANGELOG.md",
+  "telemetry": "http://qrlk.me/dev/moonloader/glonass/stats.php"
 }
