@@ -3,7 +3,7 @@ require 'lib.moonloader'
 -------------------------------------META---------------------------------------
 --------------------------------------------------------------------------------
 script_name("GLONASS")
-script_version("25.01.2019")
+script_version("25.06.2022")
 script_author("qrlk")
 script_description("/glonass")
 script_url("https://github.com/qrlk/glonass")
