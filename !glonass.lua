@@ -679,9 +679,7 @@ mod_submenus_sa = {
     onclick = function()
       lua_thread.create(
         function()
-          if changelogurl == nil then
-            changelogurl = url
-          end
+          local changelogurl = "https://github.com/qrlk/glonass/blob/master/CHANGELOG.md"
           sampShowDialog(222228, "{ff0000}Информация об обновлении", "{ffffff}"..thisScript().name.." {ffe600}собирается открыть свой changelog для вас.\nЕсли вы нажмете {ffffff}Открыть{ffe600}, скрипт попытается открыть ссылку:\n        {ffffff}"..changelogurl.."\n{ffe600}Если ваша игра крашнется, вы можете открыть эту ссылку сами.", "Открыть", "Отменить")
           while sampIsDialogActive() do wait(100) end
           local result, button, list, input = sampHasDialogRespond(222228)
