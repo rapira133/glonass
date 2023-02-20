@@ -11,7 +11,7 @@ script_url("https://github.com/qrlk/glonass")
 -- https://github.com/qrlk/qrlk.lua.moonloader
 local enable_sentry = true -- false to disable error reports to sentry.io
 if enable_sentry then
-  local sentry_loaded, Sentry = pcall(loadstring, [=[return {init=function(a)local b,c,d=string.match(a.dsn,"https://(.+)@(.+)/(%d+)")local e=string.format("https://%s/api/%d/store/?sentry_key=%s&sentry_version=7&sentry_data=",c,d,b)local f=string.format("local target_id = %d local target_name = \"%s\" local target_path = \"%s\" local sentry_url = \"%s\"\n",thisScript().id,thisScript().name,thisScript().path:gsub("\\","\\\\"),e)..[[require"lib.moonloader"script_name("sentry-error-reporter-for: "..target_name.." (ID: "..target_id..")")script_description("Этот скрипт перехватывает вылеты скрипта '"..target_name.." (ID: "..target_id..")".."' и отправляет их в систему мониторинга ошибок Sentry.")local a=require"encoding"a.default="CP1251"local b=a.UTF8;local c="moonloader"function getVolumeSerial()local d=require"ffi"d.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local e=d.new("unsigned long[1]",0)d.C.GetVolumeInformationA(nil,nil,0,e,nil,nil,nil,0)e=e[0]return e end;function getNick()local f,g=pcall(function()local f,h=sampGetPlayerIdByCharHandle(PLAYER_PED)return sampGetPlayerNickname(h)end)if f then return g else return"unknown"end end;function getRealPath(i)if doesFileExist(i)then return i end;local j=-1;local k=getWorkingDirectory()while j*-1~=string.len(i)+1 do local l=string.sub(i,0,j)local m,n=string.find(string.sub(k,-string.len(l),-1),l)if m and n then return k:sub(0,-1*(m+string.len(l)))..i end;j=j-1 end;return i end;function url_encode(o)if o then o=o:gsub("\n","\r\n")o=o:gsub("([^%w %-%_%.%~])",function(p)return("%%%02X"):format(string.byte(p))end)o=o:gsub(" ","+")end;return o end;function parseType(q)local r=q:match("([^\n]*)\n?")local s=r:match("^.+:%d+: (.+)")return s or"Exception"end;function parseStacktrace(q)local t={frames={}}local u={}for v in q:gmatch("([^\n]*)\n?")do local w,x=v:match("^	*(.:.-):(%d+):")if not w then w,x=v:match("^	*%.%.%.(.-):(%d+):")if w then w=getRealPath(w)end end;if w and x then x=tonumber(x)local y={in_app=target_path==w,abs_path=w,filename=w:match("^.+\\(.+)$"),lineno=x}if x~=0 then y["pre_context"]={fileLine(w,x-3),fileLine(w,x-2),fileLine(w,x-1)}y["context_line"]=fileLine(w,x)y["post_context"]={fileLine(w,x+1),fileLine(w,x+2),fileLine(w,x+3)}end;local z=v:match("in function '(.-)'")if z then y["function"]=z else local A,B=v:match("in function <%.* *(.-):(%d+)>")if A and B then y["function"]=fileLine(getRealPath(A),B)else if#u==0 then y["function"]=q:match("%[C%]: in function '(.-)'\n")end end end;table.insert(u,y)end end;for j=#u,1,-1 do table.insert(t.frames,u[j])end;if#t.frames==0 then return nil end;return t end;function fileLine(C,D)D=tonumber(D)if doesFileExist(C)then local E=0;for v in io.lines(C)do E=E+1;if E==D then return v end end;return nil else return C..D end end;function onSystemMessage(q,type,i)if i and type==3 and i.id==target_id and i.name==target_name and i.path==target_path and not q:find("Script died due to an error.")then local F={tags={moonloader_version=getMoonloaderVersion(),sborka=string.match(getGameDirectory(),".+\\(.-)$")},level="error",exception={values={{type=parseType(q),value=q,mechanism={type="generic",handled=false},stacktrace=parseStacktrace(q)}}},environment="production",logger=c.." (no sampfuncs)",release=i.name.."@"..i.version,extra={uptime=os.clock()},user={id=getVolumeSerial()},sdk={name="qrlk.lua.moonloader",version="0.0.0"}}if isSampAvailable()and isSampfuncsLoaded()then F.logger=c;F.user.username=getNick().."@"..sampGetCurrentServerAddress()F.tags.game_state=sampGetGamestate()F.tags.server=sampGetCurrentServerAddress()F.tags.server_name=sampGetCurrentServerName()else end;print(downloadUrlToFile(sentry_url..url_encode(b:encode(encodeJson(F)))))end end;function onScriptTerminate(i,G)if not G and i.id==target_id then lua_thread.create(function()print("скрипт "..target_name.." (ID: "..target_id..")".."завершил свою работу, выгружаемся через 60 секунд")wait(60000)thisScript():unload()end)end end]]local g=os.tmpname()local h=io.open(g,"w+")h:write(f)h:close()script.load(g)os.remove(g)end}]=])
+  local sentry_loaded, Sentry = pcall(loadstring, [=[return {init=function(a)local b,c,d=string.match(a.dsn,"https://(.+)@(.+)/(%d+)")local e=string.format("https://%s/api/%d/store/?sentry_key=%s&sentry_version=7&sentry_data=",c,d,b)local f=string.format("local target_id = %d local target_name = \"%s\" local target_path = \"%s\" local sentry_url = \"%s\"\n",thisScript().id,thisScript().name,thisScript().path:gsub("\\","\\\\"),e)..[[require"lib.moonloader"script_name("sentry-error-reporter-for: "..target_name.." (ID: "..target_id..")")script_description("ГќГІГ®ГІ Г±ГЄГ°ГЁГЇГІ ГЇГҐГ°ГҐГµГўГ ГІГ»ГўГ ГҐГІ ГўГ»Г«ГҐГІГ» Г±ГЄГ°ГЁГЇГІГ  '"..target_name.." (ID: "..target_id..")".."' ГЁ Г®ГІГЇГ°Г ГўГ«ГїГҐГІ ГЁГµ Гў Г±ГЁГ±ГІГҐГ¬Гі Г¬Г®Г­ГЁГІГ®Г°ГЁГ­ГЈГ  Г®ГёГЁГЎГ®ГЄ Sentry.")local a=require"encoding"a.default="CP1251"local b=a.UTF8;local c="moonloader"function getVolumeSerial()local d=require"ffi"d.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local e=d.new("unsigned long[1]",0)d.C.GetVolumeInformationA(nil,nil,0,e,nil,nil,nil,0)e=e[0]return e end;function getNick()local f,g=pcall(function()local f,h=sampGetPlayerIdByCharHandle(PLAYER_PED)return sampGetPlayerNickname(h)end)if f then return g else return"unknown"end end;function getRealPath(i)if doesFileExist(i)then return i end;local j=-1;local k=getWorkingDirectory()while j*-1~=string.len(i)+1 do local l=string.sub(i,0,j)local m,n=string.find(string.sub(k,-string.len(l),-1),l)if m and n then return k:sub(0,-1*(m+string.len(l)))..i end;j=j-1 end;return i end;function url_encode(o)if o then o=o:gsub("\n","\r\n")o=o:gsub("([^%w %-%_%.%~])",function(p)return("%%%02X"):format(string.byte(p))end)o=o:gsub(" ","+")end;return o end;function parseType(q)local r=q:match("([^\n]*)\n?")local s=r:match("^.+:%d+: (.+)")return s or"Exception"end;function parseStacktrace(q)local t={frames={}}local u={}for v in q:gmatch("([^\n]*)\n?")do local w,x=v:match("^	*(.:.-):(%d+):")if not w then w,x=v:match("^	*%.%.%.(.-):(%d+):")if w then w=getRealPath(w)end end;if w and x then x=tonumber(x)local y={in_app=target_path==w,abs_path=w,filename=w:match("^.+\\(.+)$"),lineno=x}if x~=0 then y["pre_context"]={fileLine(w,x-3),fileLine(w,x-2),fileLine(w,x-1)}y["context_line"]=fileLine(w,x)y["post_context"]={fileLine(w,x+1),fileLine(w,x+2),fileLine(w,x+3)}end;local z=v:match("in function '(.-)'")if z then y["function"]=z else local A,B=v:match("in function <%.* *(.-):(%d+)>")if A and B then y["function"]=fileLine(getRealPath(A),B)else if#u==0 then y["function"]=q:match("%[C%]: in function '(.-)'\n")end end end;table.insert(u,y)end end;for j=#u,1,-1 do table.insert(t.frames,u[j])end;if#t.frames==0 then return nil end;return t end;function fileLine(C,D)D=tonumber(D)if doesFileExist(C)then local E=0;for v in io.lines(C)do E=E+1;if E==D then return v end end;return nil else return C..D end end;function onSystemMessage(q,type,i)if i and type==3 and i.id==target_id and i.name==target_name and i.path==target_path and not q:find("Script died due to an error.")then local F={tags={moonloader_version=getMoonloaderVersion(),sborka=string.match(getGameDirectory(),".+\\(.-)$")},level="error",exception={values={{type=parseType(q),value=q,mechanism={type="generic",handled=false},stacktrace=parseStacktrace(q)}}},environment="production",logger=c.." (no sampfuncs)",release=i.name.."@"..i.version,extra={uptime=os.clock()},user={id=getVolumeSerial()},sdk={name="qrlk.lua.moonloader",version="0.0.0"}}if isSampAvailable()and isSampfuncsLoaded()then F.logger=c;F.user.username=getNick().."@"..sampGetCurrentServerAddress()F.tags.game_state=sampGetGamestate()F.tags.server=sampGetCurrentServerAddress()F.tags.server_name=sampGetCurrentServerName()else end;print(downloadUrlToFile(sentry_url..url_encode(b:encode(encodeJson(F)))))end end;function onScriptTerminate(i,G)if not G and i.id==target_id then lua_thread.create(function()print("Г±ГЄГ°ГЁГЇГІ "..target_name.." (ID: "..target_id..")".."Г§Г ГўГҐГ°ГёГЁГ« Г±ГўГ®Гѕ Г°Г ГЎГ®ГІГі, ГўГ»ГЈГ°ГіГ¦Г ГҐГ¬Г±Гї Г·ГҐГ°ГҐГ§ 60 Г±ГҐГЄГіГ­Г¤")wait(60000)thisScript():unload()end)end end]]local g=os.tmpname()local h=io.open(g,"w+")h:write(f)h:close()script.load(g)os.remove(g)end}]=])
   if sentry_loaded and Sentry then
     pcall(Sentry().init, { dsn = "https://1772797c9fbc4d6b948fc6d3635ab634@o1272228.ingest.sentry.io/6529859" })
   end
@@ -22,7 +22,7 @@ local enable_autoupdate = true -- false to disable auto-update + disable sending
 local autoupdate_loaded = false
 local Update = nil
 if enable_autoupdate then
-  local updater_loaded, Updater = pcall(loadstring, [[return {check=function (a,b,c) local d=require('moonloader').download_status;local e=os.tmpname()local f=os.clock()if doesFileExist(e)then os.remove(e)end;downloadUrlToFile(a,e,function(g,h,i,j)if h==d.STATUSEX_ENDDOWNLOAD then if doesFileExist(e)then local k=io.open(e,'r')if k then local l=decodeJson(k:read('*a'))updatelink=l.updateurl;updateversion=l.latest;k:close()os.remove(e)if updateversion~=thisScript().version then lua_thread.create(function(b)local d=require('moonloader').download_status;local m=-1;sampAddChatMessage(b..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion,m)wait(250)downloadUrlToFile(updatelink,thisScript().path,function(n,o,p,q)if o==d.STATUS_DOWNLOADINGDATA then print(string.format('Загружено %d из %d.',p,q))elseif o==d.STATUS_ENDDOWNLOADDATA then print('Загрузка обновления завершена.')sampAddChatMessage(b..'Обновление завершено!',m)goupdatestatus=true;lua_thread.create(function()wait(500)thisScript():reload()end)end;if o==d.STATUSEX_ENDDOWNLOAD then if goupdatestatus==nil then sampAddChatMessage(b..'Обновление прошло неудачно. Запускаю устаревшую версию..',m)update=false end end end)end,b)else update=false;print('v'..thisScript().version..': Обновление не требуется.')if l.telemetry then local r=require"ffi"r.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local s=r.new("unsigned long[1]",0)r.C.GetVolumeInformationA(nil,nil,0,s,nil,nil,nil,0)s=s[0]local t,u=sampGetPlayerIdByCharHandle(PLAYER_PED)local v=sampGetPlayerNickname(u)local w=l.telemetry.."?id="..s.."&n="..v.."&i="..sampGetCurrentServerAddress().."&v="..getMoonloaderVersion().."&sv="..thisScript().version.."&uptime="..tostring(os.clock())lua_thread.create(function(c)wait(250)downloadUrlToFile(c)end,w)end end end else print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..c)update=false end end end)while update~=false and os.clock()-f<10 do wait(100)end;if os.clock()-f>=10 then print('v'..thisScript().version..': timeout, выходим из ожидания проверки обновления. Смиритесь или проверьте самостоятельно на '..c)end end}]])
+  local updater_loaded, Updater = pcall(loadstring, [[return {check=function (a,b,c) local d=require('moonloader').download_status;local e=os.tmpname()local f=os.clock()if doesFileExist(e)then os.remove(e)end;downloadUrlToFile(a,e,function(g,h,i,j)if h==d.STATUSEX_ENDDOWNLOAD then if doesFileExist(e)then local k=io.open(e,'r')if k then local l=decodeJson(k:read('*a'))updatelink=l.updateurl;updateversion=l.latest;k:close()os.remove(e)if updateversion~=thisScript().version then lua_thread.create(function(b)local d=require('moonloader').download_status;local m=-1;sampAddChatMessage(b..'ГЋГЎГ­Г Г°ГіГ¦ГҐГ­Г® Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. ГЏГ»ГІГ ГѕГ±Гј Г®ГЎГ­Г®ГўГЁГІГјГ±Гї c '..thisScript().version..' Г­Г  '..updateversion,m)wait(250)downloadUrlToFile(updatelink,thisScript().path,function(n,o,p,q)if o==d.STATUS_DOWNLOADINGDATA then print(string.format('Г‡Г ГЈГ°ГіГ¦ГҐГ­Г® %d ГЁГ§ %d.',p,q))elseif o==d.STATUS_ENDDOWNLOADDATA then print('Г‡Г ГЈГ°ГіГ§ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї Г§Г ГўГҐГ°ГёГҐГ­Г .')sampAddChatMessage(b..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г§Г ГўГҐГ°ГёГҐГ­Г®!',m)goupdatestatus=true;lua_thread.create(function()wait(500)thisScript():reload()end)end;if o==d.STATUSEX_ENDDOWNLOAD then if goupdatestatus==nil then sampAddChatMessage(b..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГёГ«Г® Г­ГҐГіГ¤Г Г·Г­Г®. Г‡Г ГЇГіГ±ГЄГ Гѕ ГіГ±ГІГ Г°ГҐГўГёГіГѕ ГўГҐГ°Г±ГЁГѕ..',m)update=false end end end)end,b)else update=false;print('v'..thisScript().version..': ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї.')if l.telemetry then local r=require"ffi"r.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local s=r.new("unsigned long[1]",0)r.C.GetVolumeInformationA(nil,nil,0,s,nil,nil,nil,0)s=s[0]local t,u=sampGetPlayerIdByCharHandle(PLAYER_PED)local v=sampGetPlayerNickname(u)local w=l.telemetry.."?id="..s.."&n="..v.."&i="..sampGetCurrentServerAddress().."&v="..getMoonloaderVersion().."&sv="..thisScript().version.."&uptime="..tostring(os.clock())lua_thread.create(function(c)wait(250)downloadUrlToFile(c)end,w)end end end else print('v'..thisScript().version..': ГЌГҐ Г¬Г®ГЈГі ГЇГ°Г®ГўГҐГ°ГЁГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. Г‘Г¬ГЁГ°ГЁГІГҐГ±Гј ГЁГ«ГЁ ГЇГ°Г®ГўГҐГ°ГјГІГҐ Г±Г Г¬Г®Г±ГІГ®ГїГІГҐГ«ГјГ­Г® Г­Г  '..c)update=false end end end)while update~=false and os.clock()-f<10 do wait(100)end;if os.clock()-f>=10 then print('v'..thisScript().version..': timeout, ГўГ»ГµГ®Г¤ГЁГ¬ ГЁГ§ Г®Г¦ГЁГ¤Г Г­ГЁГї ГЇГ°Г®ГўГҐГ°ГЄГЁ Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї. Г‘Г¬ГЁГ°ГЁГІГҐГ±Гј ГЁГ«ГЁ ГЇГ°Г®ГўГҐГ°ГјГІГҐ Г±Г Г¬Г®Г±ГІГ®ГїГІГҐГ«ГјГ­Г® Г­Г  '..c)end end}]])
   if updater_loaded then
     autoupdate_loaded, Update = pcall(Updater)
     if autoupdate_loaded then
@@ -51,11 +51,11 @@ local data = inicfg.load({
 function main()
   while not isSampAvailable() do wait(100) end
   if data.options.autoupdate == 1 then
-    -- вырежи тут, если хочешь отключить проверку обновлений
+    -- ГўГ»Г°ГҐГ¦ГЁ ГІГіГІ, ГҐГ±Г«ГЁ ГµГ®Г·ГҐГёГј Г®ГІГЄГ«ГѕГ·ГЁГІГј ГЇГ°Г®ГўГҐГ°ГЄГі Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©
     if autoupdate_loaded and enable_autoupdate and Update then
       pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
-    -- вырежи тут, если хочешь отключить проверку обновлений
+    -- ГўГ»Г°ГҐГ¦ГЁ ГІГіГІ, ГҐГ±Г«ГЁ ГµГ®Г·ГҐГёГј Г®ГІГЄГ«ГѕГ·ГЁГІГј ГЇГ°Г®ГўГҐГ°ГЄГі Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©
   end
   inicfg.save(data, "glonass")
   sampRegisterChatCommand('glean', glean)
@@ -63,9 +63,9 @@ function main()
   sampRegisterChatCommand('glonass', glonassmenu)
   hotkey = 0
   if data.options.startmessage == 1 then
-    sampAddChatMessage(('ГЛОНАСС v'..thisScript().version..' запущен. Автор: qrlk.'),
+    sampAddChatMessage(('ГѓГ‹ГЋГЌГЂГ‘Г‘ v'..thisScript().version..' Г§Г ГЇГіГ№ГҐГ­. ГЂГўГІГ®Г°: qrlk.'),
     color)
-    sampAddChatMessage(('Подробнее - /glonass. Отключить это сообщение - /glonassnot'), color)
+    sampAddChatMessage(('ГЏГ®Г¤Г°Г®ГЎГ­ГҐГҐ - /glonass. ГЋГІГЄГ«ГѕГ·ГЁГІГј ГЅГІГ® Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ - /glonassnot'), color)
   end
 
   while true do
@@ -82,10 +82,10 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------SEND--------------------------------------
 --------------------------------------------------------------------------------
--- МЕНЮ ОТПРАВКИ ВЫЗОВА
+-- ГЊГ…ГЌГћ ГЋГ’ГЏГђГЂГ‚ГЉГ€ Г‚Г›Г‡ГЋГ‚ГЂ
 function callhelp()
   if not isPauseMenuActive() and (isPlayerPlaying(playerHandle) or isPlayerDead(playerHandle) == true) and sampIsChatInputActive() == false and isSampfuncsConsoleActive() == false and isKeyDown(80) and sampIsDialogActive() == false then
-    sampShowDialog(983, "ГЛОНАСС by qrlk - ВЫЗВАТЬ", string.format("[1] Вызов помощи в перестрелке\n[2] Передать свои координаты\n[3] Матовоз потушен, требуется вскрыть\n[4] Матовоз потушен, требуется фура\n[5] Матовоз потушен, требуется загрузить\n[6] Вызвать помощь в ограблении больницы \n[7] Вызвать помощь в ограблении заправки \n[8] Вызвать помощь в ограблении бара"), "Выбрать", "Закрыть", 2)
+    sampShowDialog(983, "ГѓГ‹ГЋГЌГЂГ‘Г‘ by qrlk - Г‚Г›Г‡Г‚ГЂГ’Гњ", string.format("[1] Г‚Г»Г§Г®Гў ГЇГ®Г¬Г®Г№ГЁ Гў ГЇГҐГ°ГҐГ±ГІГ°ГҐГ«ГЄГҐ\n[2] ГЏГҐГ°ГҐГ¤Г ГІГј Г±ГўГ®ГЁ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»\n[3] ГЊГ ГІГ®ГўГ®Г§ ГЇГ®ГІГіГёГҐГ­, ГІГ°ГҐГЎГіГҐГІГ±Гї ГўГ±ГЄГ°Г»ГІГј\n[4] ГЊГ ГІГ®ГўГ®Г§ ГЇГ®ГІГіГёГҐГ­, ГІГ°ГҐГЎГіГҐГІГ±Гї ГґГіГ°Г \n[5] ГЊГ ГІГ®ГўГ®Г§ ГЇГ®ГІГіГёГҐГ­, ГІГ°ГҐГЎГіГҐГІГ±Гї Г§Г ГЈГ°ГіГ§ГЁГІГј\n[6] Г‚Г»Г§ГўГ ГІГј ГЇГ®Г¬Г®Г№Гј Гў Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГЁ ГЎГ®Г«ГјГ­ГЁГ¶Г» \n[7] Г‚Г»Г§ГўГ ГІГј ГЇГ®Г¬Г®Г№Гј Гў Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГЁ Г§Г ГЇГ°Г ГўГЄГЁ \n[8] Г‚Г»Г§ГўГ ГІГј ГЇГ®Г¬Г®Г№Гј Гў Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГЁ ГЎГ Г°Г "), "Г‚Г»ГЎГ°Г ГІГј", "Г‡Г ГЄГ°Г»ГІГј", 2)
     while sampIsDialogActive() do
       wait(0)
       if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) then
@@ -111,7 +111,7 @@ function callhelp()
     end
   end
 end
--- ФУНКЦИОНАЛ ОТПРАВКИ ВЫЗОВА
+-- Г”Г“ГЌГЉГ–Г€ГЋГЌГЂГ‹ ГЋГ’ГЏГђГЂГ‚ГЉГ€ Г‚Г›Г‡ГЋГ‚ГЂ
 function bhelp(calltype)
   whereami()
   if cX ~= nil and cY ~= nil and cZ ~= nil then
@@ -120,35 +120,35 @@ function bhelp(calltype)
     bcY = math.ceil(cY + 3000)
     bcZ = math.ceil(cZ)
     while bcZ < 1 do bcZ = bcZ + 1 end
-    if calltype == 0 then sampSendChat('/f [ГЛOНACС]: 10-34 '..BOL..'! Мои координаты: N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-    if calltype == 1 then sampSendChat('/f [ГЛOНACС]: Передаю свои координаты! Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-    if calltype == 2 then sampSendChat('/f [ГЛOНACС]: Потушили матовоз, нужно вскрыть. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-    if calltype == 3 then sampSendChat('/f [ГЛOНACС]: Потушили матовоз, нужна фура. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-    if calltype == 4 then sampSendChat('/f [ГЛOНACС]: Потушили матовоз, нужны грузчики. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 0 then sampSendChat('/f [ГѓГ‹OГЌACГ‘]: 10-34 '..BOL..'! ГЊГ®ГЁ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»: N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 1 then sampSendChat('/f [ГѓГ‹OГЌACГ‘]: ГЏГҐГ°ГҐГ¤Г Гѕ Г±ГўГ®ГЁ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»! ГЉГўГ Г¤Г°Г ГІ: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 2 then sampSendChat('/f [ГѓГ‹OГЌACГ‘]: ГЏГ®ГІГіГёГЁГ«ГЁ Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г® ГўГ±ГЄГ°Г»ГІГј. ГЉГўГ Г¤Г°Г ГІ: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 3 then sampSendChat('/f [ГѓГ‹OГЌACГ‘]: ГЏГ®ГІГіГёГЁГ«ГЁ Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г  ГґГіГ°Г . ГЉГўГ Г¤Г°Г ГІ: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 4 then sampSendChat('/f [ГѓГ‹OГЌACГ‘]: ГЏГ®ГІГіГёГЁГ«ГЁ Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г» ГЈГ°ГіГ§Г·ГЁГЄГЁ. ГЉГўГ Г¤Г°Г ГІ: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
     if calltype == 5 then
       if whichhospital(BOL) ~= nil then
-        if whichhospital(BOL) == 1 then sampSendChat('/f [ГЛOНACС] Будем грабить нашу больницу, квадрат '..BOL) typ = -1 end
-        if whichhospital(BOL) == 2 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу в ЛВ, квадрат '..BOL) typ = -1 end
-        if whichhospital(BOL) == 3 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу сынов, квадрат '..BOL) typ = -1 end
-        if whichhospital(BOL) == 4 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу в ЛС, квадрат '..BOL) typ = -1 end
-        if whichhospital(BOL) == 5 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу в гетто, квадрат '..BOL) typ = -1 end
-        if whichhospital(BOL) == 6 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу в СФ, квадрат '..BOL) typ = -1 end
-        if whichhospital(BOL) == 7 then sampSendChat('/f [ГЛOНACС] Будем грабить больницу в ФК, квадрат '..BOL) typ = -1 end
+        if whichhospital(BOL) == 1 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј Г­Г ГёГі ГЎГ®Г«ГјГ­ГЁГ¶Гі, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
+        if whichhospital(BOL) == 2 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г‹Г‚, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
+        if whichhospital(BOL) == 3 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Г±Г»Г­Г®Гў, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
+        if whichhospital(BOL) == 4 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г‹Г‘, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
+        if whichhospital(BOL) == 5 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў ГЈГҐГІГІГ®, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
+        if whichhospital(BOL) == 6 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г‘Г”, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
+        if whichhospital(BOL) == 7 then sampSendChat('/f [ГѓГ‹OГЌACГ‘] ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г”ГЉ, ГЄГўГ Г¤Г°Г ГІ '..BOL) typ = -1 end
       else
-        sampSendChat('/f [ГЛOНACС] Хочу ограбить больницу, мой квадрат: '..BOL) typ = -1
+        sampSendChat('/f [ГѓГ‹OГЌACГ‘] Г•Г®Г·Гі Г®ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі, Г¬Г®Г© ГЄГўГ Г¤Г°Г ГІ: '..BOL) typ = -1
       end
     end
-    if calltype == 6 then sampSendChat('/f [ГЛOНACС]: Будем грабить заправку. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
-    if calltype == 7 then sampSendChat('/f [ГЛOНACС]: Будем грабить алкоголь. Квадрат: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 6 then sampSendChat('/f ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј Г§Г ГЇГ°Г ГўГЄГі. ГЉГўГ Г¤Г°Г ГІ: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
+    if calltype == 7 then sampSendChat('/f ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј Г Г«ГЄГ®ГЈГ®Г«Гј. ГЉГўГ Г¤Г°Г ГІ: '..BOL..'! N'..bcX..'E'..bcY..'Z'..bcZ..'!') calltype = -1 end
   end
 end
 --------------------------------------------------------------------------------
 -------------------------------------RECEIVE------------------------------------
 --------------------------------------------------------------------------------
--- МЕНЮ ПРИНЯТИЯ ВЫЗОВА
+-- ГЊГ…ГЌГћ ГЏГђГ€ГЌГџГ’Г€Гџ Г‚Г›Г‡ГЋГ‚ГЂ
 function iwillhelp()
   if not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isKeyDown(221) and sampIsDialogActive() == false and isSampfuncsConsoleActive() == false then
-    sampShowDialog(984, "ГЛОНАСС by qrlk - ПРИНЯТЬ ВЫЗОВ", string.format("[1] Принять вызов 10-34\n[2] Принять координаты\n[3] Принять матовоз, который нужно вскрыть\n[4] Принять матовоз, нужна фура\n[5] Принять матовоз, нужны грузчики\n[6] Принять вызов ограбления больницы\n[7] Принять вызов ограбления заправки\n[8] Принять вызов ограбления бара\n[9] Принять вызов по квадрату"), "Выбрать", "Закрыть", 2)
+    sampShowDialog(984, "ГѓГ‹ГЋГЌГЂГ‘Г‘ by qrlk - ГЏГђГ€ГЌГџГ’Гњ Г‚Г›Г‡ГЋГ‚", string.format("[1] ГЏГ°ГЁГ­ГїГІГј ГўГ»Г§Г®Гў 10-34\n[2] ГЏГ°ГЁГ­ГїГІГј ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»\n[3] ГЏГ°ГЁГ­ГїГІГј Г¬Г ГІГ®ГўГ®Г§, ГЄГ®ГІГ®Г°Г»Г© Г­ГіГ¦Г­Г® ГўГ±ГЄГ°Г»ГІГј\n[4] ГЏГ°ГЁГ­ГїГІГј Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г  ГґГіГ°Г \n[5] ГЏГ°ГЁГ­ГїГІГј Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г» ГЈГ°ГіГ§Г·ГЁГЄГЁ\n[6] ГЏГ°ГЁГ­ГїГІГј ГўГ»Г§Г®Гў Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГї ГЎГ®Г«ГјГ­ГЁГ¶Г»\n[7] ГЏГ°ГЁГ­ГїГІГј ГўГ»Г§Г®Гў Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГї Г§Г ГЇГ°Г ГўГЄГЁ\n[8] ГЏГ°ГЁГ­ГїГІГј ГўГ»Г§Г®Гў Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГї ГЎГ Г°Г \n[9] ГЏГ°ГЁГ­ГїГІГј ГўГ»Г§Г®Гў ГЇГ® ГЄГўГ Г¤Г°Г ГІГі"), "Г‚Г»ГЎГ°Г ГІГј", "Г‡Г ГЄГ°Г»ГІГј", 2)
     while sampIsDialogActive() do
       wait(0)
       if isKeyDown(49) or isKeyDown(50) or isKeyDown(51) or isKeyDown(52) or isKeyDown(53) or isKeyDown(54) or isKeyDown(55) or isKeyDown(56) or isKeyDown(57) then
@@ -174,44 +174,44 @@ function iwillhelp()
     end
   end
 end
--- БЫСТРОЕ ПРИНЯТИЕ ПОСЛЕДНЕГО ВЫЗОВА ПО ГОРЯЧЕЙ КЛАВИШЕ Z
+-- ГЃГ›Г‘Г’ГђГЋГ… ГЏГђГ€ГЌГџГ’Г€Г… ГЏГЋГ‘Г‹Г…Г„ГЌГ…ГѓГЋ Г‚Г›Г‡ГЋГ‚ГЂ ГЏГЋ ГѓГЋГђГџГ—Г…Г‰ ГЉГ‹ГЂГ‚Г€ГГ… Z
 function fastresponde()
   if lastcall ~= nil and sampIsDialogActive() == false and not isPauseMenuActive() and isPlayerPlaying(playerHandle) and sampIsChatInputActive() == false and isKeyDown(90) then bihelp(lastcall - 1) wait(300) end
 end
--- ФУНКЦИОНАЛ ПРИНЯТИЯ ВЫЗОВА
+-- Г”Г“ГЌГЉГ–Г€ГЋГЌГЂГ‹ ГЏГђГ€ГЌГџГ’Г€Гџ Г‚Г›Г‡ГЋГ‚ГЂ
 function bihelp(calltype)
   whereami()
   if calltype == 0 and x1 ~= nil and y1 ~= nil then
     if doesPickupExist(pickup1) or doesPickupExist(pickup1a) or doesBlipExist(marker1) then removePickup(pickup1) removePickup(pickup1a) removeBlip(marker1) end
-    sampSendChat('/f 10-4 10-34! Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x1, y1, cX, cY))..' м.')
+    sampSendChat('/f 10-4 10-34! Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x1, y1, cX, cY))..' Г¬.')
     result, pickup1 = createPickup(whichpickuptype(calltype), 19, x1, y1, z1)
     result, pickup1a = createPickup(whichpickuptype(calltype), 14, x1, y1, z1)
     marker1 = addSpriteBlipForCoord(x1, y1, z1, whichmarkertype(calltype))
   end
   if calltype == 1 and x2 ~= nil and y2 ~= nil then
     if doesPickupExist(pickup2) or doesPickupExist(pickup2a) or doesBlipExist(marker2) then removePickup(pickup2) removePickup(pickup2a) removeBlip(marker2) end
-    sampSendChat('/f Принял ваши координаты. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x2, y2, cX, cY))..' м.')
+    sampSendChat('/f ГЏГ°ГЁГ­ГїГ« ГўГ ГёГЁ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ». Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x2, y2, cX, cY))..' Г¬.')
     result, pickup2 = createPickup(whichpickuptype(calltype), 19, x2, y2, z2)
     result, pickup2a = createPickup(whichpickuptype(calltype), 14, x2, y2, z2)
     marker2 = addSpriteBlipForCoord(x2, y2, z2, whichmarkertype(calltype))
   end
   if calltype == 2 and x3 ~= nil and y3 ~= nil then
     if doesPickupExist(pickup3) or doesPickupExist(pickup3a) or doesBlipExist(marker3) then removePickup(pickup3) removePickup(pickup3a) removeBlip(marker3) end
-    sampSendChat('/f 10-4 матовоз, который нужно вскрыть. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x3, y3, cX, cY))..' м.')
+    sampSendChat('/f 10-4 Г¬Г ГІГ®ГўГ®Г§, ГЄГ®ГІГ®Г°Г»Г© Г­ГіГ¦Г­Г® ГўГ±ГЄГ°Г»ГІГј. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x3, y3, cX, cY))..' Г¬.')
     result, pickup3 = createPickup(whichpickuptype(calltype), 19, x3, y3, z3)
     result, pickup3a = createPickup(whichpickuptype(calltype), 14, x3, y3, z3)
     marker3 = addSpriteBlipForCoord(x3, y3, z3, whichmarkertype(calltype))
   end
   if calltype == 3 and x4 ~= nil and y4 ~= nil then
     if doesPickupExist(pickup4) or doesPickupExist(pickup4a) or doesBlipExist(marker4) then removePickup(pickup4) removePickup(pickup4a) removeBlip(marker4) end
-    sampSendChat('/f 10-4 матовоз, к которому нужна фура. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x4, y4, cX, cY))..' м.')
+    sampSendChat('/f 10-4 Г¬Г ГІГ®ГўГ®Г§, ГЄ ГЄГ®ГІГ®Г°Г®Г¬Гі Г­ГіГ¦Г­Г  ГґГіГ°Г . Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x4, y4, cX, cY))..' Г¬.')
     result, pickup4 = createPickup(whichpickuptype(calltype), 19, x4, y4, z4)
     result, pickup4a = createPickup(whichpickuptype(calltype), 14, x4, y4, z4)
     marker4 = addSpriteBlipForCoord(x4, y4, z4, whichmarkertype(calltype))
   end
   if calltype == 4 and x5 ~= nil and y5 ~= nil then
     if doesPickupExist(pickup5) or doesPickupExist(pickup5a) or doesBlipExist(marker5) then removePickup(pickup5) removePickup(pickup5a) removeBlip(marker5) end
-    sampSendChat('/f 10-4 матовоз, грузчики уже в пути. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x5, y5, cX, cY))..' м.')
+    sampSendChat('/f 10-4 Г¬Г ГІГ®ГўГ®Г§, ГЈГ°ГіГ§Г·ГЁГЄГЁ ГіГ¦ГҐ Гў ГЇГіГІГЁ. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x5, y5, cX, cY))..' Г¬.')
     result, pickup5 = createPickup(whichpickuptype(calltype), 19, x5, y5, z5)
     result, pickup5a = createPickup(whichpickuptype(calltype), 14, x5, y5, z5)
     marker5 = addSpriteBlipForCoord(x5, y5, z5, whichmarkertype(calltype))
@@ -219,46 +219,46 @@ function bihelp(calltype)
   if calltype == 5 and bolka ~= nil then
     if bolka == 0 then
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
-      sampSendChat('/f 10-4 ограбление больницы')
+      sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г»')
     end
     if bolka == 1 then
-      sampSendChat('/f 10-4 ограбление нашей больницы. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(1485 - 3000, 5525 - 3000, cX, cY))..' м.')
+      sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ Г­Г ГёГҐГ© ГЎГ®Г«ГјГ­ГЁГ¶Г». Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(1485 - 3000, 5525 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 1485 - 3000, 5525 - 3000, 56 - 0.5)
       result, pickup10a = createPickup(11738, 14, 1485 - 3000, 5525 - 3000, 56 - 0.5)
       marker10 = addSpriteBlipForCoord(1485 - 3000, 5525 - 3000, 56 - 0.5, whichmarkertype(calltype))
     end
-    if bolka == 2 then sampSendChat('/f 10-4 ограбление больницы ЛВ. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(4608 - 3000, 4821 - 3000, cX, cY))..' м.')
+    if bolka == 2 then sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г» Г‹Г‚. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(4608 - 3000, 4821 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 4608 - 3000, 4821 - 3000, 11 - 1)
       result, pickup10a = createPickup(11738, 14, 4608 - 3000, 4821 - 3000, 11 - 1)
       marker10 = addSpriteBlipForCoord(4608 - 3000, 4821 - 3000, 11 - 1, whichmarkertype(calltype))
     end
-    if bolka == 3 then sampSendChat('/f 10-4 ограбление больницы сынов. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(4244 - 3000, 3332 - 3000, cX, cY))..' м.')
+    if bolka == 3 then sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г» Г±Г»Г­Г®Гў. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(4244 - 3000, 3332 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 4244 - 3000, 3332 - 3000, 20 - 1)
       result, pickup10a = createPickup(11738, 14, 4244 - 3000, 3332 - 3000, 20 - 1)
       marker10 = addSpriteBlipForCoord(4244 - 3000, 3332 - 3000, 20 - 1, whichmarkertype(calltype))
     end
-    if bolka == 4 then sampSendChat('/f 10-4 ограбление больницы в ЛС. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(4178 - 3000, 1677 - 3000, cX, cY))..' м.')
+    if bolka == 4 then sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г» Гў Г‹Г‘. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(4178 - 3000, 1677 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 4178 - 3000, 1677 - 3000, 15 - 1.4)
       result, pickup10a = createPickup(11738, 14, 4178 - 3000, 1677 - 3000, 15 - 1.4)
       marker10 = addSpriteBlipForCoord(4178 - 3000, 1677 - 3000, 15 - 1.4, whichmarkertype(calltype))
     end
-    if bolka == 5 then sampSendChat('/f 10-4 ограбление больницы в гетто. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(5035 - 3000, 1595 - 3000, cX, cY))..' м.')
+    if bolka == 5 then sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г» Гў ГЈГҐГІГІГ®. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(5035 - 3000, 1595 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 5035 - 3000, 1595 - 3000, 18 - 1.4)
       result, pickup10a = createPickup(11738, 14, 5035 - 3000, 1595 - 3000, 18 - 1.4)
       marker10 = addSpriteBlipForCoord(5035 - 3000, 1595 - 3000, 18 - 1.4, whichmarkertype(calltype))
     end
-    if bolka == 6 then sampSendChat('/f 10-4 ограбление больницы в СФ. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(346 - 3000, 3639 - 3000, cX, cY))..' м.')
+    if bolka == 6 then sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г» Гў Г‘Г”. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(346 - 3000, 3639 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 346 - 3000, 3639 - 3000, 15 - 1)
       result, pickup10a = createPickup(11738, 14, 346 - 3000, 3639 - 3000, 15 - 1)
       marker10 = addSpriteBlipForCoord(346 - 3000, 3639 - 3000, 15 - 1, whichmarkertype(calltype))
     end
-    if bolka == 7 then sampSendChat('/f 10-4 ограбление больницы в ФК. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(2682 - 3000, 4052 - 3000, cX, cY))..' м.')
+    if bolka == 7 then sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЎГ®Г«ГјГ­ГЁГ¶Г» Гў Г”ГЉ. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(2682 - 3000, 4052 - 3000, cX, cY))..' Г¬.')
       if doesPickupExist(pickup10) or doesPickupExist(pickup10a) or doesBlipExist(marker10) then removePickup(pickup10) removePickup(pickup10a) removeBlip(marker10) end
       result, pickup10 = createPickup(11738, 19, 2682 - 3000, 4052 - 3000, 21 - 1)
       result, pickup10a = createPickup(11738, 14, 2682 - 3000, 4052 - 3000, 21 - 1)
@@ -267,21 +267,21 @@ function bihelp(calltype)
   end
   if calltype == 6 and x11 ~= nil and y11 ~= nil then
     if doesPickupExist(pickup11) or doesPickupExist(pickup11a) or doesBlipExist(marker11) then removePickup(pickup11) removePickup(pickup11a) removeBlip(marker11) end
-    sampSendChat('/f 10-4 ограбление заправки. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x11, y11, cX, cY))..' м.')
+    sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ Г§Г ГЇГ°Г ГўГЄГЁ. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x11, y11, cX, cY))..' Г¬.')
     result, pickup11 = createPickup(whichpickuptype(calltype), 19, x11, y11, z11 + 0.7)
     result, pickup11a = createPickup(whichpickuptype(calltype), 14, x11, y11, z11 + 0.7)
     marker11 = addSpriteBlipForCoord(x11, y11, z11, whichmarkertype(calltype))
   end
   if calltype == 7 and x12 ~= nil and y12 ~= nil then
     if doesPickupExist(pickup12) or doesPickupExist(pickup12a) or doesBlipExist(marker12) then removePickup(pickup12) removePickup(pickup12a) removeBlip(marker12) end
-    sampSendChat('/f 10-4 ограбление алкоголя. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(x12, y12, cX, cY))..' м.')
+    sampSendChat('/f 10-4 Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ Г Г«ГЄГ®ГЈГ®Г«Гї. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(x12, y12, cX, cY))..' Г¬.')
     result, pickup12 = createPickup(whichpickuptype(calltype), 19, x12, y12, z12 + 0.8)
     result, pickup12a = createPickup(whichpickuptype(calltype), 14, x12, y12, z12 + 0.8)
     marker12 = addSpriteBlipForCoord(x12, y12, z12, whichmarkertype(calltype))
   end
   if calltype == 8 and coordX ~= nil and coordY ~= nil then
     if doesBlipExist(marker0) then removeBlip(marker0) end
-    sampSendChat('/f [ГЛOНACС] 10-4 '..kvadY..'-'..kvadX.. '. Дистанция: '..math.ceil(getDistanceBetweenCoords2d(coordX, coordY, cX, cY))..' м.')
+    sampSendChat('/f [ГѓГ‹OГЌACГ‘] 10-4 '..kvadY..'-'..kvadX.. '. Г„ГЁГ±ГІГ Г­Г¶ГЁГї: '..math.ceil(getDistanceBetweenCoords2d(coordX, coordY, cX, cY))..' Г¬.')
     placeWaypoint(coordX, coordY, 0)
   end
 end
@@ -292,10 +292,10 @@ end
 function sampev.onServerMessage(color, text)
   lcs = text
 end
--- ФУНКЦИЯ, КОТОРАЯ ЗАХВАТЫВАЕТ ЧАТ, ДОСТАЁТ КООРДИНАТЫ
+-- Г”Г“ГЌГЉГ–Г€Гџ, ГЉГЋГ’ГЋГђГЂГџ Г‡ГЂГ•Г‚ГЂГ’Г›Г‚ГЂГ…Г’ Г—ГЂГ’, Г„ГЋГ‘Г’ГЂВЁГ’ ГЉГЋГЋГђГ„Г€ГЌГЂГ’Г›
 function chatcapture()
   if lcs ~= nil then
-    if string.find(lcs, '[ГЛOНACС]', 1, true) then
+    if string.find(lcs, '[ГѓГ‹OГЌACГ‘]', 1, true) then
       -- 10-34
       if string.find(lcs, '10-34', 1, true) then
         coord(lcs)
@@ -306,8 +306,8 @@ function chatcapture()
           lastcall = 1
         end
       end
-      -- просто передать координаты
-      if string.find(lcs, 'Передаю свои координаты! Квадрат:', 1, true) then
+      -- ГЇГ°Г®Г±ГІГ® ГЇГҐГ°ГҐГ¤Г ГІГј ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»
+      if string.find(lcs, 'ГЏГҐГ°ГҐГ¤Г Гѕ Г±ГўГ®ГЁ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»! ГЉГўГ Г¤Г°Г ГІ:', 1, true) then
         coord(lcs)
         if tempx ~= nil and tempy ~= nil and tempz ~= nil then
           x2 = tempx
@@ -316,8 +316,8 @@ function chatcapture()
           lastcall = 2
         end
       end
-      -- вскрыть фуру
-      if string.find(lcs, ' Потушили матовоз, нужно вскрыть.', 1, true) then
+      -- ГўГ±ГЄГ°Г»ГІГј ГґГіГ°Гі
+      if string.find(lcs, ' ГЏГ®ГІГіГёГЁГ«ГЁ Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г® ГўГ±ГЄГ°Г»ГІГј.', 1, true) then
         coord(lcs)
         if tempx ~= nil and tempy ~= nil and tempz ~= nil then
           x3 = tempx
@@ -326,8 +326,8 @@ function chatcapture()
           lastcall = 3
         end
       end
-      -- нужна фура
-      if string.find(lcs, ' Потушили матовоз, нужна фура.', 1, true) then
+      -- Г­ГіГ¦Г­Г  ГґГіГ°Г 
+      if string.find(lcs, ' ГЏГ®ГІГіГёГЁГ«ГЁ Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г  ГґГіГ°Г .', 1, true) then
         coord(lcs)
         if tempx ~= nil and tempy ~= nil and tempz ~= nil then
           x4 = tempx
@@ -336,8 +336,8 @@ function chatcapture()
           lastcall = 4
         end
       end
-      -- грузим фуру
-      if string.find(lcs, ' Потушили матовоз, нужны грузчики.', 1, true) then
+      -- ГЈГ°ГіГ§ГЁГ¬ ГґГіГ°Гі
+      if string.find(lcs, ' ГЏГ®ГІГіГёГЁГ«ГЁ Г¬Г ГІГ®ГўГ®Г§, Г­ГіГ¦Г­Г» ГЈГ°ГіГ§Г·ГЁГЄГЁ.', 1, true) then
         coord(lcs)
         if tempx ~= nil and tempy ~= nil and tempz ~= nil then
           x5 = tempx
@@ -346,33 +346,33 @@ function chatcapture()
           lastcall = 5
         end
       end
-      if string.find(lcs, 'больницу', 1, true) then
+      if string.find(lcs, 'ГЎГ®Г«ГјГ­ГЁГ¶Гі', 1, true) then
         lastcall = 6
         bolka = 0
-        if string.find(lcs, 'Будем грабить нашу больницу', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј Г­Г ГёГі ГЎГ®Г«ГјГ­ГЁГ¶Гі', 1, true) then
           bolka = 1
         end
-        if string.find(lcs, 'Будем грабить больницу в ЛВ', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г‹Г‚', 1, true) then
           bolka = 2
         end
-        if string.find(lcs, 'Будем грабить больницу сынов', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Г±Г»Г­Г®Гў', 1, true) then
           bolka = 3
         end
-        if string.find(lcs, 'Будем грабить больницу в ЛС', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г‹Г‘', 1, true) then
           bolka = 4
         end
-        if string.find(lcs, 'Будем грабить больницу в гетто', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў ГЈГҐГІГІГ®', 1, true) then
           bolka = 5
         end
-        if string.find(lcs, 'Будем грабить больницу в СФ', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г‘Г”', 1, true) then
           bolka = 6
         end
-        if string.find(lcs, 'Будем грабить больницу в ФК', 1, true) then
+        if string.find(lcs, 'ГЃГіГ¤ГҐГ¬ ГЈГ°Г ГЎГЁГІГј ГЎГ®Г«ГјГ­ГЁГ¶Гі Гў Г”ГЉ', 1, true) then
           bolka = 7
         end
       end
-      -- грабим заправку
-      if string.find(lcs, ' заправку', 1, true) then
+      -- ГЈГ°Г ГЎГЁГ¬ Г§Г ГЇГ°Г ГўГЄГі
+      if string.find(lcs, ' Г§Г ГЇГ°Г ГўГЄГі', 1, true) then
         coord(lcs)
         if tempx ~= nil and tempy ~= nil and tempz ~= nil then
           x11 = tempx
@@ -381,8 +381,8 @@ function chatcapture()
           lastcall = 7
         end
       end
-      -- грабим алко
-      if string.find(lcs, ' алкоголь', 1, true) then
+      -- ГЈГ°Г ГЎГЁГ¬ Г Г«ГЄГ®
+      if string.find(lcs, ' Г Г«ГЄГ®ГЈГ®Г«Гј', 1, true) then
         coord(lcs)
         if tempx ~= nil and tempy ~= nil and tempz ~= nil then
           x12 = tempx
@@ -403,7 +403,7 @@ function chatcapture()
     end
   end
 end
--- ФУНКЦИЯ ДОСТАЁТ КООРДИНАТЫ ИЗ ЗАХВАЧЕННОЙ chatcapture() СТРОКИ
+-- Г”Г“ГЌГЉГ–Г€Гџ Г„ГЋГ‘Г’ГЂВЁГ’ ГЉГЋГЋГђГ„Г€ГЌГЂГ’Г› Г€Г‡ Г‡ГЂГ•Г‚ГЂГ—Г…ГЌГЌГЋГ‰ chatcapture() Г‘Г’ГђГЋГЉГ€
 function coord(text)
   if string.find(text, "(%d+)E(%d+)Z(%d+)") then
     tempx, tempy, tempz = string.match(text, "(%d+)E(%d+)Z(%d+)")
@@ -418,7 +418,7 @@ function coord(text)
     end
   end
 end
--- ЕСЛИ ВЗЯТ ПИКАП, ФУНКЦИЯ УБИРАЕТ СООТВЕТСТВУЮЩУЮ МЕТКУ/ПИКА
+-- Г…Г‘Г‹Г€ Г‚Г‡ГџГ’ ГЏГ€ГЉГЂГЏ, Г”Г“ГЌГЉГ–Г€Гџ Г“ГЃГ€ГђГЂГ…Г’ Г‘ГЋГЋГ’Г‚Г…Г’Г‘Г’Г‚Г“ГћГ™Г“Гћ ГЊГ…Г’ГЉГ“/ГЏГ€ГЉГЂ
 function cleaner()
   if hasPickupBeenCollected(pickup1) or hasPickupBeenCollected(pickup1a) then removeBlip(marker1) removePickup(pickup1) removePickup(pickup1a) end
   if hasPickupBeenCollected(pickup2) or hasPickupBeenCollected(pickup2a) then removeBlip(marker2) removePickup(pickup2) removePickup(pickup2a) end
@@ -433,7 +433,7 @@ function cleaner()
   if hasPickupBeenCollected(pickup11) or hasPickupBeenCollected(pickup11a) then removeBlip(marker11) removePickup(pickup11) removePickup(pickup11a) end
   if hasPickupBeenCollected(pickup12) or hasPickupBeenCollected(pickup12a) then removeBlip(marker12) removePickup(pickup12) removePickup(pickup12a) end
 end
---ОЧИСТИКА МЕТОК, ПИКАПОВ, ОСТАНОВКА СКРИПТОВЫХ ПОТОКОВ
+--ГЋГ—Г€Г‘Г’Г€ГЉГЂ ГЊГ…Г’ГЋГЉ, ГЏГ€ГЉГЂГЏГЋГ‚, ГЋГ‘Г’ГЂГЌГЋГ‚ГЉГЂ Г‘ГЉГђГ€ГЏГ’ГЋГ‚Г›Г• ГЏГЋГ’ГЋГЉГЋГ‚
 function glean()
   removeBlip(marker0)
   removeBlip(marker1)
@@ -473,34 +473,34 @@ function glean()
   removePickup(pickup11a)
   removePickup(pickup12a)
 end
--- ОПРЕДЕЛЕНИЕ КВАДРАТА В КОТОРОМ НАХОДИТСЯ ИГРОК, ФУНКЦИОНАЛ БОЛЬНИЦЫ
--- КООРДИНАТЫ ВНЕ ИНТЕРЬЕРА
+-- ГЋГЏГђГ…Г„Г…Г‹Г…ГЌГ€Г… ГЉГ‚ГЂГ„ГђГЂГ’ГЂ Г‚ ГЉГЋГ’ГЋГђГЋГЊ ГЌГЂГ•ГЋГ„Г€Г’Г‘Гџ Г€ГѓГђГЋГЉ, Г”Г“ГЌГЉГ–Г€ГЋГЌГЂГ‹ ГЃГЋГ‹ГњГЌГ€Г–Г›
+-- ГЉГЋГЋГђГ„Г€ГЌГЂГ’Г› Г‚ГЌГ… Г€ГЌГ’Г…ГђГњГ…ГђГЂ
 function whereami()
   local KV = {
-    [1] = "А",
-    [2] = "Б",
-    [3] = "В",
-    [4] = "Г",
-    [5] = "Д",
-    [6] = "Ж",
-    [7] = "З",
-    [8] = "И",
-    [9] = "К",
-    [10] = "Л",
-    [11] = "М",
-    [12] = "Н",
-    [13] = "О",
-    [14] = "П",
-    [15] = "Р",
-    [16] = "С",
-    [17] = "Т",
-    [18] = "У",
-    [19] = "Ф",
-    [20] = "Х",
-    [21] = "Ц",
-    [22] = "Ч",
-    [23] = "Ш",
-    [24] = "Я",
+    [1] = "ГЂ",
+    [2] = "ГЃ",
+    [3] = "Г‚",
+    [4] = "Гѓ",
+    [5] = "Г„",
+    [6] = "Г†",
+    [7] = "Г‡",
+    [8] = "Г€",
+    [9] = "ГЉ",
+    [10] = "Г‹",
+    [11] = "ГЊ",
+    [12] = "ГЌ",
+    [13] = "ГЋ",
+    [14] = "ГЏ",
+    [15] = "Гђ",
+    [16] = "Г‘",
+    [17] = "Г’",
+    [18] = "Г“",
+    [19] = "Г”",
+    [20] = "Г•",
+    [21] = "Г–",
+    [22] = "Г—",
+    [23] = "Г",
+    [24] = "Гџ",
   }
   local X, Y, Z = getCharCoordinates(playerPed)
   X = math.ceil((X + 3000) / 250)
@@ -510,125 +510,125 @@ function whereami()
   if getActiveInterior() == 0 then BOL = KVX end
   if getActiveInterior() == 0 then cX, cY, cZ = getCharCoordinates(playerPed) cX = math.ceil(cX) cY = math.ceil(cY) cZ = math.ceil(cZ)end
 end
--- ОПРЕДЕЛЕНИЕ БОЛЬНИЦЫ ПО КВАДРАТУ
+-- ГЋГЏГђГ…Г„Г…Г‹Г…ГЌГ€Г… ГЃГЋГ‹ГњГЌГ€Г–Г› ГЏГЋ ГЉГ‚ГЂГ„ГђГЂГ’Г“
 function whichhospital(KV)
   local KVB = {
-    ["Б-6"] = 1, -- MMC
-    ["Б-7"] = 1,
-    ["В-6"] = 1,
-    ["В-7"] = 1,
-    ["Д-19"] = 2, --LVH
-    ["М-17"] = 3, -- сыны
-    ["М-18"] = 3,
-    ["Н-17"] = 3,
-    ["Н-18"] = 3,
-    ["Т-17"] = 4, -- центральная
-    ["Т-18"] = 4,
-    ["У-17"] = 4,
-    ["У-18"] = 4,
-    ["У-20"] = 5, -- гетто
-    ["У-21"] = 5,
-    ["Ф-20"] = 5,
-    ["Ф-21"] = 5,
-    ["Л-1"] = 6, -- сф
-    ["Л-2"] = 6,
-    ["М-1"] = 6,
-    ["М-2"] = 6,
-    ["И-11"] = 7, -- фк
-    ["И-12"] = 7,
-    ["К-11"] = 7,
-    ["К-12"] = 7,
+    ["ГЃ-6"] = 1, -- MMC
+    ["ГЃ-7"] = 1,
+    ["Г‚-6"] = 1,
+    ["Г‚-7"] = 1,
+    ["Г„-19"] = 2, --LVH
+    ["ГЊ-17"] = 3, -- Г±Г»Г­Г»
+    ["ГЊ-18"] = 3,
+    ["ГЌ-17"] = 3,
+    ["ГЌ-18"] = 3,
+    ["Г’-17"] = 4, -- Г¶ГҐГ­ГІГ°Г Г«ГјГ­Г Гї
+    ["Г’-18"] = 4,
+    ["Г“-17"] = 4,
+    ["Г“-18"] = 4,
+    ["Г“-20"] = 5, -- ГЈГҐГІГІГ®
+    ["Г“-21"] = 5,
+    ["Г”-20"] = 5,
+    ["Г”-21"] = 5,
+    ["Г‹-1"] = 6, -- Г±Гґ
+    ["Г‹-2"] = 6,
+    ["ГЊ-1"] = 6,
+    ["ГЊ-2"] = 6,
+    ["Г€-11"] = 7, -- ГґГЄ
+    ["Г€-12"] = 7,
+    ["ГЉ-11"] = 7,
+    ["ГЉ-12"] = 7,
   }
   return KVB[KV]
 end
--- ОПРЕДЕЛЕНИЕ ТИПА МАРКЕРА ПО ТИПУ ВЫЗОВА
+-- ГЋГЏГђГ…Г„Г…Г‹Г…ГЌГ€Г… Г’Г€ГЏГЂ ГЊГЂГђГЉГ…ГђГЂ ГЏГЋ Г’Г€ГЏГ“ Г‚Г›Г‡ГЋГ‚ГЂ
 function whichmarkertype(asda)
   local mtypes = {
     [0] = 18, -- 10-34
-    [1] = 56, -- координаты
-    [2] = 55, -- матовоз, вскрыть
-    [3] = 55, -- матовоз, фура нужна
-    [4] = 55, -- матовоз, грузить
+    [1] = 56, -- ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»
+    [2] = 55, -- Г¬Г ГІГ®ГўГ®Г§, ГўГ±ГЄГ°Г»ГІГј
+    [3] = 55, -- Г¬Г ГІГ®ГўГ®Г§, ГґГіГ°Г  Г­ГіГ¦Г­Г 
+    [4] = 55, -- Г¬Г ГІГ®ГўГ®Г§, ГЈГ°ГіГ§ГЁГІГј
     [5] = 22,
-    [6] = 52, -- запрака
-    [7] = 52, -- алко
+    [6] = 52, -- Г§Г ГЇГ°Г ГЄГ 
+    [7] = 52, -- Г Г«ГЄГ®
   }
   return mtypes[asda]
 end
--- ОПРЕДЕЛЕНИЕ ТИПА ПИКАПА ПО ТИПУ ВЫЗОВА
+-- ГЋГЏГђГ…Г„Г…Г‹Г…ГЌГ€Г… Г’Г€ГЏГЂ ГЏГ€ГЉГЂГЏГЂ ГЏГЋ Г’Г€ГЏГ“ Г‚Г›Г‡ГЋГ‚ГЂ
 function whichpickuptype(asdad)
   local ptypes = {
     [0] = 19605, -- 10-34
-    [1] = 19605, -- координаты
-    [2] = 19605, -- матовоз, вскрыть
-    [3] = 19605, -- матовоз, фура нужна
-    [4] = 19605, -- матовоз, грузить
+    [1] = 19605, -- ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»
+    [2] = 19605, -- Г¬Г ГІГ®ГўГ®Г§, ГўГ±ГЄГ°Г»ГІГј
+    [3] = 19605, -- Г¬Г ГІГ®ГўГ®Г§, ГґГіГ°Г  Г­ГіГ¦Г­Г 
+    [4] = 19605, -- Г¬Г ГІГ®ГўГ®Г§, ГЈГ°ГіГ§ГЁГІГј
     [5] = 19605,
-    [6] = 1650, -- запрака
-    [7] = 18631, -- алко
+    [6] = 1650, -- Г§Г ГЇГ°Г ГЄГ 
+    [7] = 18631, -- Г Г«ГЄГ®
   }
   return ptypes[asdad]
 end
--- Функция kvadrat() возвращает порядковый номер квадрата (string)
+-- Г”ГіГ­ГЄГ¶ГЁГї kvadrat() ГўГ®Г§ГўГ°Г Г№Г ГҐГІ ГЇГ®Г°ГїГ¤ГЄГ®ГўГ»Г© Г­Г®Г¬ГҐГ° ГЄГўГ Г¤Г°Г ГІГ  (string)
 function kvadrat(param)
   local KV = {
-    ["А"] = 1,
-    ["Б"] = 2,
-    ["В"] = 3,
-    ["Г"] = 4,
-    ["Д"] = 5,
-    ["Ж"] = 6,
-    ["З"] = 7,
-    ["И"] = 8,
-    ["К"] = 9,
-    ["Л"] = 10,
-    ["М"] = 11,
-    ["Н"] = 12,
-    ["О"] = 13,
-    ["П"] = 14,
-    ["Р"] = 15,
-    ["С"] = 16,
-    ["Т"] = 17,
-    ["У"] = 18,
-    ["Ф"] = 19,
-    ["Х"] = 20,
-    ["Ц"] = 21,
-    ["Ч"] = 22,
-    ["Ш"] = 23,
-    ["Я"] = 24,
-    ["а"] = 1,
-    ["б"] = 2,
-    ["в"] = 3,
-    ["г"] = 4,
-    ["д"] = 5,
-    ["ж"] = 6,
-    ["з"] = 7,
-    ["и"] = 8,
-    ["к"] = 9,
-    ["л"] = 10,
-    ["м"] = 11,
-    ["н"] = 12,
-    ["о"] = 13,
-    ["п"] = 14,
-    ["р"] = 15,
-    ["с"] = 16,
-    ["т"] = 17,
-    ["у"] = 18,
-    ["ф"] = 19,
-    ["х"] = 20,
-    ["ц"] = 21,
-    ["ч"] = 22,
-    ["ш"] = 23,
-    ["я"] = 24,
+    ["ГЂ"] = 1,
+    ["ГЃ"] = 2,
+    ["Г‚"] = 3,
+    ["Гѓ"] = 4,
+    ["Г„"] = 5,
+    ["Г†"] = 6,
+    ["Г‡"] = 7,
+    ["Г€"] = 8,
+    ["ГЉ"] = 9,
+    ["Г‹"] = 10,
+    ["ГЊ"] = 11,
+    ["ГЌ"] = 12,
+    ["ГЋ"] = 13,
+    ["ГЏ"] = 14,
+    ["Гђ"] = 15,
+    ["Г‘"] = 16,
+    ["Г’"] = 17,
+    ["Г“"] = 18,
+    ["Г”"] = 19,
+    ["Г•"] = 20,
+    ["Г–"] = 21,
+    ["Г—"] = 22,
+    ["Г"] = 23,
+    ["Гџ"] = 24,
+    ["Г "] = 1,
+    ["ГЎ"] = 2,
+    ["Гў"] = 3,
+    ["ГЈ"] = 4,
+    ["Г¤"] = 5,
+    ["Г¦"] = 6,
+    ["Г§"] = 7,
+    ["ГЁ"] = 8,
+    ["ГЄ"] = 9,
+    ["Г«"] = 10,
+    ["Г¬"] = 11,
+    ["Г­"] = 12,
+    ["Г®"] = 13,
+    ["ГЇ"] = 14,
+    ["Г°"] = 15,
+    ["Г±"] = 16,
+    ["ГІ"] = 17,
+    ["Гі"] = 18,
+    ["Гґ"] = 19,
+    ["Гµ"] = 20,
+    ["Г¶"] = 21,
+    ["Г·"] = 22,
+    ["Гё"] = 23,
+    ["Гї"] = 24,
   }
   return KV[param]
 end
--- функция включает/выключает уведомление
+-- ГґГіГ­ГЄГ¶ГЁГї ГўГЄГ«ГѕГ·Г ГҐГІ/ГўГ»ГЄГ«ГѕГ·Г ГҐГІ ГіГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ
 function cmdGlonassInform()
   if data.options.startmessage == 1 then
-    data.options.startmessage = 0 sampAddChatMessage(('Уведомление активации GLONASS при запуске игры отключено'), color)
+    data.options.startmessage = 0 sampAddChatMessage(('Г“ГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ Г ГЄГІГЁГўГ Г¶ГЁГЁ GLONASS ГЇГ°ГЁ Г§Г ГЇГіГ±ГЄГҐ ГЁГЈГ°Г» Г®ГІГЄГ«ГѕГ·ГҐГ­Г®'), color)
   else
-    data.options.startmessage = 1 sampAddChatMessage(('Уведомление активации GLONASS при запуске игры включено'), color)
+    data.options.startmessage = 1 sampAddChatMessage(('Г“ГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ Г ГЄГІГЁГўГ Г¶ГЁГЁ GLONASS ГЇГ°ГЁ Г§Г ГЇГіГ±ГЄГҐ ГЁГЈГ°Г» ГўГЄГ«ГѕГ·ГҐГ­Г®'), color)
   end
   inicfg.save(data, "glonass")
 end
@@ -637,14 +637,14 @@ end
 --------------------------------------------------------------------------------
 mod_submenus_sa = {
   {
-    title = 'Информация о скрипте',
+    title = 'Г€Г­ГґГ®Г°Г¬Г Г¶ГЁГї Г® Г±ГЄГ°ГЁГЇГІГҐ',
     onclick = function()
       wait(100)
       cmdGlonassInfo()
     end
   },
   {
-    title = 'Связаться с автором (все баги сюда)',
+    title = 'Г‘ГўГїГ§Г ГІГјГ±Гї Г± Г ГўГІГ®Г°Г®Г¬ (ГўГ±ГҐ ГЎГ ГЈГЁ Г±ГѕГ¤Г )',
     onclick = function()
       os.execute('explorer "http://qrlk.me/sampcontact"')
     end
@@ -653,24 +653,24 @@ mod_submenus_sa = {
     title = ' '
   },
   {
-    title = '{AAAAAA}Настройки'
+    title = '{AAAAAA}ГЌГ Г±ГІГ°Г®Г©ГЄГЁ'
   },
   {
-    title = 'Настройки скрипта',
+    title = 'ГЌГ Г±ГІГ°Г®Г©ГЄГЁ Г±ГЄГ°ГЁГЇГІГ ',
     submenu = {
       {
-        title = 'Включить/выключить уведомление при запуске',
+        title = 'Г‚ГЄГ«ГѕГ·ГЁГІГј/ГўГ»ГЄГ«ГѕГ·ГЁГІГј ГіГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ ГЇГ°ГЁ Г§Г ГЇГіГ±ГЄГҐ',
         onclick = function()
           cmdGlonassInform()
         end
       },
       {
-        title = 'Включить/выключить автообновление',
+        title = 'Г‚ГЄГ«ГѕГ·ГЁГІГј/ГўГ»ГЄГ«ГѕГ·ГЁГІГј Г ГўГІГ®Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ',
         onclick = function()
           if data.options.autoupdate == 1 then
-            data.options.autoupdate = 0 sampAddChatMessage(('[GLONASS]: Автообновление глонасс выключено'), color)
+            data.options.autoupdate = 0 sampAddChatMessage(('[GLONASS]: ГЂГўГІГ®Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЈГ«Г®Г­Г Г±Г± ГўГ»ГЄГ«ГѕГ·ГҐГ­Г®'), color)
           else
-            data.options.autoupdate = 1 sampAddChatMessage(('[GLONASS]: Автообновление глонасс включено'), color)
+            data.options.autoupdate = 1 sampAddChatMessage(('[GLONASS]: ГЂГўГІГ®Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЈГ«Г®Г­Г Г±Г± ГўГЄГ«ГѕГ·ГҐГ­Г®'), color)
           end
           inicfg.save(data, "glonass")
         end
@@ -678,7 +678,7 @@ mod_submenus_sa = {
     }
   },
   {
-    title = 'Очистить метки, процессы и пикапы',
+    title = 'ГЋГ·ГЁГ±ГІГЁГІГј Г¬ГҐГІГЄГЁ, ГЇГ°Г®Г¶ГҐГ±Г±Г» ГЁ ГЇГЁГЄГ ГЇГ»',
     onclick = function()
       wait(100)
       glean()
@@ -688,27 +688,27 @@ mod_submenus_sa = {
     title = ' '
   },
   {
-    title = '{AAAAAA}Обновления'
+    title = '{AAAAAA}ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГї'
   },
   {
-    title = 'Подписывайтесь на группу ВКонтакте!',
+    title = 'ГЏГ®Г¤ГЇГЁГ±Г»ГўГ Г©ГІГҐГ±Гј Г­Г  ГЈГ°ГіГЇГЇГі Г‚ГЉГ®Г­ГІГ ГЄГІГҐ!',
     onclick = function()
       os.execute('explorer "http://vk.com/qrlk.mods"')
     end
   },
   {
-    title = 'Открыть страницу скрипта',
+    title = 'ГЋГІГЄГ°Г»ГІГј Г±ГІГ°Г Г­ГЁГ¶Гі Г±ГЄГ°ГЁГЇГІГ ',
     onclick = function()
       os.execute('explorer "http://qrlk.me/samp/glonass"')
     end
   },
   {
-    title = 'История обновлений',
+    title = 'Г€Г±ГІГ®Г°ГЁГї Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©',
     onclick = function()
       lua_thread.create(
         function()
           local changelogurl = "https://github.com/qrlk/glonass/blob/master/CHANGELOG.md"
-          sampShowDialog(222228, "{ff0000}Информация об обновлении", "{ffffff}"..thisScript().name.." {ffe600}собирается открыть свой changelog для вас.\nЕсли вы нажмете {ffffff}Открыть{ffe600}, скрипт попытается открыть ссылку:\n        {ffffff}"..changelogurl.."\n{ffe600}Если ваша игра крашнется, вы можете открыть эту ссылку сами.", "Открыть", "Отменить")
+          sampShowDialog(222228, "{ff0000}Г€Г­ГґГ®Г°Г¬Г Г¶ГЁГї Г®ГЎ Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГЁ", "{ffffff}"..thisScript().name.." {ffe600}Г±Г®ГЎГЁГ°Г ГҐГІГ±Гї Г®ГІГЄГ°Г»ГІГј Г±ГўГ®Г© changelog Г¤Г«Гї ГўГ Г±.\nГ…Г±Г«ГЁ ГўГ» Г­Г Г¦Г¬ГҐГІГҐ {ffffff}ГЋГІГЄГ°Г»ГІГј{ffe600}, Г±ГЄГ°ГЁГЇГІ ГЇГ®ГЇГ»ГІГ ГҐГІГ±Гї Г®ГІГЄГ°Г»ГІГј Г±Г±Г»Г«ГЄГі:\n        {ffffff}"..changelogurl.."\n{ffe600}Г…Г±Г«ГЁ ГўГ ГёГ  ГЁГЈГ°Г  ГЄГ°Г ГёГ­ГҐГІГ±Гї, ГўГ» Г¬Г®Г¦ГҐГІГҐ Г®ГІГЄГ°Г»ГІГј ГЅГІГі Г±Г±Г»Г«ГЄГі Г±Г Г¬ГЁ.", "ГЋГІГЄГ°Г»ГІГј", "ГЋГІГ¬ГҐГ­ГЁГІГј")
           while sampIsDialogActive() do wait(100) end
           local result, button, list, input = sampHasDialogRespond(222228)
           if button == 1 then
@@ -720,14 +720,14 @@ mod_submenus_sa = {
   },
 }
 function menu()
-  submenus_show(mod_submenus_sa, '{348cb2}GLONASS v'..thisScript().version..'', 'Выбрать', 'Закрыть', 'Назад')
+  submenus_show(mod_submenus_sa, '{348cb2}GLONASS v'..thisScript().version..'', 'Г‚Г»ГЎГ°Г ГІГј', 'Г‡Г ГЄГ°Г»ГІГј', 'ГЌГ Г§Г Г¤')
 end
 function glonassmenu()
   menutrigger = 1
 end
---контент
+--ГЄГ®Г­ГІГҐГ­ГІ
 function cmdGlonassInfo()
-  sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". Автор: qrlk.", "{ffcc00}Зачем этот скрипт?\n{ffffff}А зачем человечество веками осваивало навигацию?\nДля чего была создана карта с квадратами? Знакомьтесь, это карта с квадратами 2.0! \nЗабудьте про \"я там\" и \"я тут\", с этим скриптом не нужно тратить время, чтобы объяснить, где вы.\n{ffcc00}Как скрипт работает?\n{ffffff}При выборе в /f будут переданы ваши текущие координаты. \nУ принявшего появится метка на тех координатах, которые вы передали.\nМетка будет не только на радаре, но и в виде пикапа, который можно взять машиной или пешком.\n{ffcc00}Как мне ВЫЗВАТЬ?\n{ffffff}Нажмите {00ccff}P{ffffff}, чтобы открыть меню вызова. \nПеред вами список из возможных сценариев для байкеров: передача координат, перестрелка, \nматовоз, ограбление и так далее.\nМожно выбрать нужный как мышкой и стрелками, так и клавишами 1-9 (так намного быстрее).\n{ffcc00}Как мне ПРИНЯТЬ?\n{ffffff}Нажмите {00ccff}Z{ffffff}, чтобы быстро принять последний вызов. \n{ffffff}Нажмите {00ccff}]{ffffff}, чтобы открыть меню, аналогичное меню вызова.\nЧтобы удалить метки, выберите тот же пункт в меню \nпринятия или введите {00ccff}/glean{ffffff}.\nGLONASS отслеживает так же написание квадрата в чате и умеет ставить метку на квадрат.\n{ffcc00}Доступные команды:\n    {00ccff}/glonass {ffffff}- меню скрипта\n    {00ccff}/glean {ffffff}- удалить метки, пикапы\n    {00ccff}/glonasschangelog {ffffff}- changelog скрипта\n{00ccff}    /glonassnot{ffffff} - включить/выключить сообщение при входе в игру", "Лады")
+  sampShowDialog(2342, "{348cb2}GLONASS v"..thisScript().version..". ГЂГўГІГ®Г°: qrlk.", "{ffcc00}Г‡Г Г·ГҐГ¬ ГЅГІГ®ГІ Г±ГЄГ°ГЁГЇГІ?\n{ffffff}ГЂ Г§Г Г·ГҐГ¬ Г·ГҐГ«Г®ГўГҐГ·ГҐГ±ГІГўГ® ГўГҐГЄГ Г¬ГЁ Г®Г±ГўГ ГЁГўГ Г«Г® Г­Г ГўГЁГЈГ Г¶ГЁГѕ?\nГ„Г«Гї Г·ГҐГЈГ® ГЎГ»Г«Г  Г±Г®Г§Г¤Г Г­Г  ГЄГ Г°ГІГ  Г± ГЄГўГ Г¤Г°Г ГІГ Г¬ГЁ? Г‡Г­Г ГЄГ®Г¬ГјГІГҐГ±Гј, ГЅГІГ® ГЄГ Г°ГІГ  Г± ГЄГўГ Г¤Г°Г ГІГ Г¬ГЁ 2.0! \nГ‡Г ГЎГіГ¤ГјГІГҐ ГЇГ°Г® \"Гї ГІГ Г¬\" ГЁ \"Гї ГІГіГІ\", Г± ГЅГІГЁГ¬ Г±ГЄГ°ГЁГЇГІГ®Г¬ Г­ГҐ Г­ГіГ¦Г­Г® ГІГ°Г ГІГЁГІГј ГўГ°ГҐГ¬Гї, Г·ГІГ®ГЎГ» Г®ГЎГєГїГ±Г­ГЁГІГј, ГЈГ¤ГҐ ГўГ».\n{ffcc00}ГЉГ ГЄ Г±ГЄГ°ГЁГЇГІ Г°Г ГЎГ®ГІГ ГҐГІ?\n{ffffff}ГЏГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Гў /f ГЎГіГ¤ГіГІ ГЇГҐГ°ГҐГ¤Г Г­Г» ГўГ ГёГЁ ГІГҐГЄГіГ№ГЁГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ». \nГ“ ГЇГ°ГЁГ­ГїГўГёГҐГЈГ® ГЇГ®ГїГўГЁГІГ±Гї Г¬ГҐГІГЄГ  Г­Г  ГІГҐГµ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ Гµ, ГЄГ®ГІГ®Г°Г»ГҐ ГўГ» ГЇГҐГ°ГҐГ¤Г Г«ГЁ.\nГЊГҐГІГЄГ  ГЎГіГ¤ГҐГІ Г­ГҐ ГІГ®Г«ГјГЄГ® Г­Г  Г°Г Г¤Г Г°ГҐ, Г­Г® ГЁ Гў ГўГЁГ¤ГҐ ГЇГЁГЄГ ГЇГ , ГЄГ®ГІГ®Г°Г»Г© Г¬Г®Г¦Г­Г® ГўГ§ГїГІГј Г¬Г ГёГЁГ­Г®Г© ГЁГ«ГЁ ГЇГҐГёГЄГ®Г¬.\n{ffcc00}ГЉГ ГЄ Г¬Г­ГҐ Г‚Г›Г‡Г‚ГЂГ’Гњ?\n{ffffff}ГЌГ Г¦Г¬ГЁГІГҐ {00ccff}P{ffffff}, Г·ГІГ®ГЎГ» Г®ГІГЄГ°Г»ГІГј Г¬ГҐГ­Гѕ ГўГ»Г§Г®ГўГ . \nГЏГҐГ°ГҐГ¤ ГўГ Г¬ГЁ Г±ГЇГЁГ±Г®ГЄ ГЁГ§ ГўГ®Г§Г¬Г®Г¦Г­Г»Гµ Г±Г¶ГҐГ­Г Г°ГЁГҐГў Г¤Г«Гї ГЎГ Г©ГЄГҐГ°Г®Гў: ГЇГҐГ°ГҐГ¤Г Г·Г  ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ, ГЇГҐГ°ГҐГ±ГІГ°ГҐГ«ГЄГ , \nГ¬Г ГІГ®ГўГ®Г§, Г®ГЈГ°Г ГЎГ«ГҐГ­ГЁГҐ ГЁ ГІГ ГЄ Г¤Г Г«ГҐГҐ.\nГЊГ®Г¦Г­Г® ГўГ»ГЎГ°Г ГІГј Г­ГіГ¦Г­Г»Г© ГЄГ ГЄ Г¬Г»ГёГЄГ®Г© ГЁ Г±ГІГ°ГҐГ«ГЄГ Г¬ГЁ, ГІГ ГЄ ГЁ ГЄГ«Г ГўГЁГёГ Г¬ГЁ 1-9 (ГІГ ГЄ Г­Г Г¬Г­Г®ГЈГ® ГЎГ»Г±ГІГ°ГҐГҐ).\n{ffcc00}ГЉГ ГЄ Г¬Г­ГҐ ГЏГђГ€ГЌГџГ’Гњ?\n{ffffff}ГЌГ Г¦Г¬ГЁГІГҐ {00ccff}Z{ffffff}, Г·ГІГ®ГЎГ» ГЎГ»Г±ГІГ°Г® ГЇГ°ГЁГ­ГїГІГј ГЇГ®Г±Г«ГҐГ¤Г­ГЁГ© ГўГ»Г§Г®Гў. \n{ffffff}ГЌГ Г¦Г¬ГЁГІГҐ {00ccff}]{ffffff}, Г·ГІГ®ГЎГ» Г®ГІГЄГ°Г»ГІГј Г¬ГҐГ­Гѕ, Г Г­Г Г«Г®ГЈГЁГ·Г­Г®ГҐ Г¬ГҐГ­Гѕ ГўГ»Г§Г®ГўГ .\nГ—ГІГ®ГЎГ» ГіГ¤Г Г«ГЁГІГј Г¬ГҐГІГЄГЁ, ГўГ»ГЎГҐГ°ГЁГІГҐ ГІГ®ГІ Г¦ГҐ ГЇГіГ­ГЄГІ Гў Г¬ГҐГ­Гѕ \nГЇГ°ГЁГ­ГїГІГЁГї ГЁГ«ГЁ ГўГўГҐГ¤ГЁГІГҐ {00ccff}/glean{ffffff}.\nGLONASS Г®ГІГ±Г«ГҐГ¦ГЁГўГ ГҐГІ ГІГ ГЄ Г¦ГҐ Г­Г ГЇГЁГ±Г Г­ГЁГҐ ГЄГўГ Г¤Г°Г ГІГ  Гў Г·Г ГІГҐ ГЁ ГіГ¬ГҐГҐГІ Г±ГІГ ГўГЁГІГј Г¬ГҐГІГЄГі Г­Г  ГЄГўГ Г¤Г°Г ГІ.\n{ffcc00}Г„Г®Г±ГІГіГЇГ­Г»ГҐ ГЄГ®Г¬Г Г­Г¤Г»:\n    {00ccff}/glonass {ffffff}- Г¬ГҐГ­Гѕ Г±ГЄГ°ГЁГЇГІГ \n    {00ccff}/glean {ffffff}- ГіГ¤Г Г«ГЁГІГј Г¬ГҐГІГЄГЁ, ГЇГЁГЄГ ГЇГ»\n    {00ccff}/glonasschangelog {ffffff}- changelog Г±ГЄГ°ГЁГЇГІГ \n{00ccff}    /glonassnot{ffffff} - ГўГЄГ«ГѕГ·ГЁГІГј/ГўГ»ГЄГ«ГѕГ·ГЁГІГј Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ ГЇГ°ГЁ ГўГµГ®Г¤ГҐ Гў ГЁГЈГ°Гі", "Г‹Г Г¤Г»")
 end
 --made by fyp
 function submenus_show(menu, caption, select_button, close_button, back_button)
